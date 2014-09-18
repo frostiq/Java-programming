@@ -18,5 +18,6 @@ public class SaveButtonListener extends AbstractSaveButtonListener {
 
     @Override
     public void Save(File file) {
+        fileService.writeObject(file, _this.getData());
     }
 }

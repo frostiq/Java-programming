@@ -18,6 +18,6 @@ public class OpenButtonListener extends AbstractOpenButtonListener {
 
     @Override
     public void Open(File file) {
-        _this.setFileText(fileService.readFile(file));
+        _this.setFileText(fileService.readText(file));
     }
 }

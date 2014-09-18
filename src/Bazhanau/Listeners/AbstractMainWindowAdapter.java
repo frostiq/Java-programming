@@ -18,7 +18,7 @@ public abstract class AbstractMainWindowAdapter extends WindowAdapter {
         if (_this.hasNoInfoToSave()) {
             System.exit(0);
         }
-        int res = JOptionPane.showConfirmDialog(null, _this.getSaveQuestion(), "", JOptionPane.YES_NO_CANCEL_OPTION);
+        int res = JOptionPane.showConfirmDialog(_this, _this.getSaveQuestion(), "", JOptionPane.YES_NO_CANCEL_OPTION);
         if (res == JOptionPane.CANCEL_OPTION) {
             return;
         }

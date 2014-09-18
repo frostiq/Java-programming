@@ -1,8 +1,9 @@
 package Bazhanau.Task2;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class StudentModel implements Comparable<StudentModel> {
+public class StudentModel implements Comparable<StudentModel>, Serializable {
     private String surname;
     private int group = -1;
     private static final int marksCount = 3;

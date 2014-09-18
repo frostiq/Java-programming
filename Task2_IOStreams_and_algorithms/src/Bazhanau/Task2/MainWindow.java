@@ -5,6 +5,7 @@ import Bazhanau.Task2.Listeners.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class MainWindow extends FileMainWindow {
     private JPanel controlPanel = new JPanel();
@@ -30,17 +31,13 @@ public class MainWindow extends FileMainWindow {
         this.deleteButton.addActionListener(new DeleteButtonListener(this));
     }
 
-    public int getSelectedRow() {
-        return table.getSelectedRow();
-    }
-
     @Override
     public boolean hasNoInfoToSave() {
         return tableModel.getRowCount() == 0;
     }
 
-    public static void main(String[] args) {
-        new MainWindow();
+    public int getSelectedRow() {
+        return table.getSelectedRow();
     }
 
     public void addRow() {
@@ -49,5 +46,17 @@ public class MainWindow extends FileMainWindow {
 
     public void deleteRow(int selectedRow) {
         tableModel.deleteRow(selectedRow);
+    }
+
+    public ArrayList<StudentModel> getData() {
+        return tableModel.getStudents();
+    }
+
+    public void setData(ArrayList<StudentModel> data) {
+        tableModel.setStudents(data);
+    }
+
+    public static void main(String[] args) {
+        new MainWindow();
     }
 }

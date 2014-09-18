@@ -1,13 +1,11 @@
 package Bazhanau;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 
 public class FileService implements IFileService {
 
-    public String readFile(File file) {
+    @Override
+    public String readText(File file) {
         StringBuilder builder = new StringBuilder();
         char[] buffer = new char['?'];
         try {
@@ -23,6 +21,7 @@ public class FileService implements IFileService {
         return builder.toString();
     }
 
+    @Override
     public void writeText(File file, String text) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(text);
@@ -31,6 +30,7 @@ public class FileService implements IFileService {
         }
     }
 
+    @Override
     public String encodeText(String text, String key) {
         char[] charText = text.toCharArray();
         char[] charKey = key.toCharArray();
@@ -38,5 +38,24 @@ public class FileService implements IFileService {
             charText[i] ^= charKey[i % charKey.length];
         }
         return String.copyValueOf(charText);
+    }
+
+    @Override
+    public void writeObject(File file, Object object) {
+        try (ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(file))) {
+            stream.writeObject(object);
+        } catch (Exception ex) {
+            Catcher.catchException(ex);
+        }
+    }
+
+    @Override
+    public Object readObject(File file) {
+        try (ObjectInputStream stream = new ObjectInputStream(new FileInputStream(file))) {
+            return stream.readObject();
+        } catch (Exception ex) {
+            Catcher.catchException(ex);
+        }
+        return null;
     }
 }
