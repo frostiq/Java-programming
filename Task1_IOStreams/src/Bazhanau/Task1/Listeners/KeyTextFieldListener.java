@@ -1,15 +1,15 @@
-package Bazhanau.Listeners;
+package Bazhanau.Task1.Listeners;
 
-import Bazhanau.Task1.IMainWindow;
+import Bazhanau.Task1.MainWindow;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class KeyTextFieldListener
         implements DocumentListener {
-    private IMainWindow _this;
+    private MainWindow _this;
 
-    public KeyTextFieldListener(IMainWindow _this) {
+    public KeyTextFieldListener(MainWindow _this) {
         this._this = _this;
     }
 
