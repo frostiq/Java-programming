@@ -1,11 +1,13 @@
 package Bazhanau.Task2.Listeners;
 
+import Bazhanau.Catcher;
 import Bazhanau.FileService;
 import Bazhanau.IFileService;
 import Bazhanau.Listeners.AbstractSaveButtonListener;
 import Bazhanau.Task2.MainWindow;
 
 import java.io.File;
+import java.io.IOException;
 
 public class SaveButtonListener extends AbstractSaveButtonListener {
     private IFileService fileService = new FileService();
@@ -17,7 +19,11 @@ public class SaveButtonListener extends AbstractSaveButtonListener {
     }
 
     @Override
-    public void Save(File file) {
-        fileService.writeObject(file, _this.getData());
+    public void save(File file) {
+        try {
+            fileService.writeObject(file, _this.getData());
+        } catch (IOException e) {
+            Catcher.catchException(e);
+        }
     }
 }

@@ -15,9 +15,10 @@ public abstract class AbstractSaveButtonListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (_this.showSaveDialog() == 0) {
-            this.Save(_this.getLastSelectedFile());
+            _this.setIsSaved(true);
+            this.save(_this.getLastSelectedFile());
         }
     }
 
-    public abstract void Save(File file);
+    public abstract void save(File file);
 }

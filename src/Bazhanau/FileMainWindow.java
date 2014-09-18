@@ -10,6 +10,7 @@ public abstract class FileMainWindow extends JFrame {
     protected JMenuItem saveMenuItem = new JMenuItem("Захаваць файл...");
     protected JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
     protected String saveQuestion = "Захаваць файл перад выхадам?";
+    protected boolean isSaved = true;
 
     public FileMainWindow() {
         setJMenuBar(this.menuBar);
@@ -37,6 +38,14 @@ public abstract class FileMainWindow extends JFrame {
 
     public File getLastSelectedFile() {
         return this.fileChooser.getSelectedFile();
+    }
+
+    public boolean isSaved() {
+        return this.isSaved;
+    }
+
+    public void setIsSaved(boolean isSaved) {
+        this.isSaved = isSaved;
     }
 
     public abstract boolean hasNoInfoToSave();

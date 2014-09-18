@@ -15,7 +15,7 @@ public abstract class AbstractMainWindowAdapter extends WindowAdapter {
     }
 
     public void windowClosing(WindowEvent e) {
-        if (_this.hasNoInfoToSave()) {
+        if (_this.hasNoInfoToSave() || _this.isSaved()) {
             System.exit(0);
         }
         int res = JOptionPane.showConfirmDialog(_this, _this.getSaveQuestion(), "", JOptionPane.YES_NO_CANCEL_OPTION);
@@ -24,7 +24,8 @@ public abstract class AbstractMainWindowAdapter extends WindowAdapter {
         }
         if (res == JOptionPane.YES_OPTION) {
             if (_this.showSaveDialog() == JFileChooser.APPROVE_OPTION) {
-                this.Save(_this.getLastSelectedFile());
+                _this.setIsSaved(true);
+                this.save(_this.getLastSelectedFile());
             } else {
                 return;
             }
@@ -32,5 +33,5 @@ public abstract class AbstractMainWindowAdapter extends WindowAdapter {
         System.exit(0);
     }
 
-    public abstract void Save(File file);
+    public abstract void save(File file);
 }

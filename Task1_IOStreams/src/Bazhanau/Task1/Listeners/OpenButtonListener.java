@@ -1,11 +1,13 @@
 package Bazhanau.Task1.Listeners;
 
+import Bazhanau.Catcher;
 import Bazhanau.FileService;
 import Bazhanau.IFileService;
 import Bazhanau.Listeners.AbstractOpenButtonListener;
 import Bazhanau.Task1.MainWindow;
 
 import java.io.File;
+import java.io.IOException;
 
 public class OpenButtonListener extends AbstractOpenButtonListener {
     private MainWindow _this;
@@ -17,7 +19,11 @@ public class OpenButtonListener extends AbstractOpenButtonListener {
     }
 
     @Override
-    public void Open(File file) {
-        _this.setFileText(fileService.readText(file));
+    public void open(File file) {
+        try {
+            _this.setFileText(fileService.readText(file));
+        } catch (IOException e) {
+            Catcher.catchException(e);
+        }
     }
 }

@@ -5,7 +5,7 @@ import java.io.*;
 public class FileService implements IFileService {
 
     @Override
-    public String readText(File file) {
+    public String readText(File file) throws IOException {
         StringBuilder builder = new StringBuilder();
         char[] buffer = new char['?'];
         try {
@@ -16,17 +16,17 @@ public class FileService implements IFileService {
                 }
             }
         } catch (Exception ex) {
-            Catcher.catchException(ex);
+            throw ex;
         }
         return builder.toString();
     }
 
     @Override
-    public void writeText(File file, String text) {
+    public void writeText(File file, String text) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(text);
-        } catch (Exception ex) {
-            Catcher.catchException(ex);
+        } catch (IOException ex) {
+            throw ex;
         }
     }
 
@@ -41,21 +41,20 @@ public class FileService implements IFileService {
     }
 
     @Override
-    public void writeObject(File file, Object object) {
+    public void writeObject(File file, Object object) throws IOException {
         try (ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(file))) {
             stream.writeObject(object);
-        } catch (Exception ex) {
-            Catcher.catchException(ex);
+        } catch (IOException ex) {
+            throw ex;
         }
     }
 
     @Override
-    public Object readObject(File file) {
+    public Object readObject(File file) throws IOException, ClassNotFoundException {
         try (ObjectInputStream stream = new ObjectInputStream(new FileInputStream(file))) {
             return stream.readObject();
-        } catch (Exception ex) {
-            Catcher.catchException(ex);
+        } catch (IOException | ClassNotFoundException ex) {
+            throw ex;
         }
-        return null;
     }
 }

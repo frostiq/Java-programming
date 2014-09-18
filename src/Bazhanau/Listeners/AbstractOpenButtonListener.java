@@ -15,9 +15,10 @@ public abstract class AbstractOpenButtonListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (_this.showOpenDialog() == 0) {
-            this.Open(_this.getLastSelectedFile());
+            this.open(_this.getLastSelectedFile());
+            _this.setIsSaved(true);
         }
     }
 
-    public abstract void Open(File file);
+    public abstract void open(File file);
 }

@@ -1,6 +1,7 @@
 package Bazhanau.Task1;
 
 import Bazhanau.FileMainWindow;
+import Bazhanau.Listeners.TextAreaListener;
 import Bazhanau.Task1.Listeners.*;
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ public class MainWindow extends FileMainWindow {
     private JButton encodeButton = new JButton("Кадаваць тэкст па ключы");
     private JTextArea textArea = new JTextArea();
 
+
     public MainWindow() {
         getContentPane().setLayout(new BorderLayout());
 
@@ -22,11 +24,12 @@ public class MainWindow extends FileMainWindow {
         this.controlPanel.add(this.keyTextField);
         this.controlPanel.add(this.encodeButton);
         this.encodeButton.setEnabled(false);
-        add(this.textArea, "Center");
+        add(new JScrollPane(this.textArea), "Center");
 
         super.openMenuItem.addActionListener(new OpenButtonListener(this));
         super.saveMenuItem.addActionListener(new SaveButtonListener(this));
         this.keyTextField.getDocument().addDocumentListener(new KeyTextFieldListener(this));
+        this.textArea.getDocument().addDocumentListener(new TextAreaListener(this));
         addWindowListener(new MainWindowAdapter(this));
         this.encodeButton.addActionListener(new EncodeButtonListener(this));
     }

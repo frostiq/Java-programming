@@ -8,6 +8,7 @@ import Bazhanau.Task2.MainWindow;
 import Bazhanau.Task2.StudentModel;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class OpenButtonListener extends AbstractOpenButtonListener {
@@ -20,10 +21,10 @@ public class OpenButtonListener extends AbstractOpenButtonListener {
     }
 
     @Override
-    public void Open(File file) {
+    public void open(File file) {
         try {
             _this.setData((ArrayList<StudentModel>) fileService.readObject(file));
-        } catch (ClassCastException e) {
+        } catch (IOException | ClassCastException | ClassNotFoundException e) {
             Catcher.catchException(e);
         }
     }
