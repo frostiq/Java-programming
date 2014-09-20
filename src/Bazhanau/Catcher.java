@@ -1,12 +1,17 @@
 package Bazhanau;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class Catcher {
-    public Catcher() {
+public class Catcher implements ICatcher {
+    private Component component;
+
+    public Catcher(Component component) {
+        this.component = component;
     }
 
-    public static void catchException(Exception e) {
-        JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+    @Override
+    public void catchException(Exception e) {
+        JOptionPane.showMessageDialog(component, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

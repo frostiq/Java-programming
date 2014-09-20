@@ -1,19 +1,25 @@
-package Bazhanau.Task2;
+package Bazhanau.Task2.Models;
+
+import Bazhanau.Task2.Listeners.StudentsTableModelListener;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
-public class TableModel extends AbstractTableModel {
+public class StudentsTableModel extends AbstractTableModel {
     private ArrayList<StudentModel> students = new ArrayList<>();
     private String[] columnIdentifiers;
+    private StudentsComparator comparator = new StudentsComparator();
 
     private enum Columns {
         SURNAME, GROUP, MATAN, GA, PROGRAMMING, AVERAGE
     }
 
-    public TableModel(String[] columnIdentifiers) {
+    public StudentsTableModel(String[] columnIdentifiers, StudentsTableModelListener listener) {
         this.columnIdentifiers = columnIdentifiers;
+        listener.setStudentsTableModel(this);
+        this.addTableModelListener(listener);
     }
 
     @Override
@@ -31,8 +37,7 @@ public class TableModel extends AbstractTableModel {
 
     public void setStudents(ArrayList<StudentModel> students) {
         this.students = students;
-        Collections.sort(students);
-        fireTableRowsInserted(0, students.size());
+        this.insertRows();
     }
 
     @Override
@@ -59,7 +64,7 @@ public class TableModel extends AbstractTableModel {
             case SURNAME:
                 return student.getSurname();
             case GROUP:
-                val = student.getGroup();
+                val = student.getGroupId();
                 return val >= 0 ? val : "";
             case MATAN:
                 val = student.getMarks().get(0);
@@ -93,36 +98,51 @@ public class TableModel extends AbstractTableModel {
                     break;
                 case MATAN:
                     student.getMarks().set(0, Integer.parseInt(val));
-                    changeRows();
                     break;
                 case GA:
                     student.getMarks().set(1, Integer.parseInt(val));
-                    changeRows();
                     break;
                 case PROGRAMMING:
                     student.getMarks().set(2, Integer.parseInt(val));
-                    changeRows();
                     break;
             }
+            changeRows();
         } catch (NumberFormatException e) {
         }
     }
 
     public void addRow() {
         students.add(new StudentModel());
-        Collections.sort(students);
+        Collections.sort(students, comparator);
         fireTableRowsInserted(students.size() - 1, students.size() - 1);
     }
 
     public void deleteRow(int selectedRow) {
         if (selectedRow >= 0) {
             students.remove(selectedRow);
+            Collections.sort(students, comparator);
             fireTableRowsDeleted(selectedRow, selectedRow);
         }
     }
 
     private void changeRows() {
-        Collections.sort(students);
+        Collections.sort(students, comparator);
         fireTableRowsUpdated(0, students.size() - 1);
+    }
+
+    private void insertRows() {
+        Collections.sort(students, comparator);
+        fireTableRowsInserted(0, students.size() - 1);
+    }
+
+    private class StudentsComparator implements Comparator<StudentModel> {
+        @Override
+        public int compare(StudentModel o1, StudentModel o2) {
+            if (o1.getGroupId() == o2.getGroupId()) {
+                return o1.compareTo(o2);
+            } else {
+                return Integer.compare(o1.getGroupId(), o2.getGroupId());
+            }
+        }
     }
 }

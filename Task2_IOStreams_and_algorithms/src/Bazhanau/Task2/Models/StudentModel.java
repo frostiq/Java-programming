@@ -1,11 +1,12 @@
-package Bazhanau.Task2;
+package Bazhanau.Task2.Models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class StudentModel implements Comparable<StudentModel>, Serializable {
     private String surname;
-    private int group = -1;
+    public static final int DEFAULT_GROUP = -1;
+    private int group = DEFAULT_GROUP;
     private static final int marksCount = 3;
     private ArrayList<Integer> marks = new ArrayList<>(marksCount);
 
@@ -23,7 +24,7 @@ public class StudentModel implements Comparable<StudentModel>, Serializable {
         this.surname = surname;
     }
 
-    public int getGroup() {
+    public int getGroupId() {
         return group;
     }
 
@@ -49,6 +50,9 @@ public class StudentModel implements Comparable<StudentModel>, Serializable {
 
     @Override
     public int compareTo(StudentModel o) {
-        return (int) Math.round(o.getAverage() - this.getAverage());
+        if (this.getSurname() != null && o.getSurname() != null)
+            return this.getSurname().compareTo(o.getSurname());
+        else
+            return 0;
     }
 }

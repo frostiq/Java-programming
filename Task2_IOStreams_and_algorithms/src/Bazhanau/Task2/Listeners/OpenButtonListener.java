@@ -1,11 +1,10 @@
 package Bazhanau.Task2.Listeners;
 
-import Bazhanau.Catcher;
 import Bazhanau.FileService;
 import Bazhanau.IFileService;
 import Bazhanau.Listeners.AbstractOpenButtonListener;
 import Bazhanau.Task2.MainWindow;
-import Bazhanau.Task2.StudentModel;
+import Bazhanau.Task2.Models.StudentModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +24,7 @@ public class OpenButtonListener extends AbstractOpenButtonListener {
         try {
             _this.setData((ArrayList<StudentModel>) fileService.readObject(file));
         } catch (IOException | ClassCastException | ClassNotFoundException e) {
-            Catcher.catchException(e);
+            _this.catchException(e);
         }
     }
 }

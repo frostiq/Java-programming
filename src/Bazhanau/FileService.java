@@ -7,7 +7,7 @@ public class FileService implements IFileService {
     @Override
     public String readText(File file) throws IOException {
         StringBuilder builder = new StringBuilder();
-        char[] buffer = new char['?'];
+        char[] buffer = new char[1024];
         try {
             try (FileReader reader = new FileReader(file)) {
                 int count;

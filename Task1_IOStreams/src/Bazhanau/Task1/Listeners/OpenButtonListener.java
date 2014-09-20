@@ -1,6 +1,5 @@
 package Bazhanau.Task1.Listeners;
 
-import Bazhanau.Catcher;
 import Bazhanau.FileService;
 import Bazhanau.IFileService;
 import Bazhanau.Listeners.AbstractOpenButtonListener;
@@ -23,7 +22,7 @@ public class OpenButtonListener extends AbstractOpenButtonListener {
         try {
             _this.setFileText(fileService.readText(file));
         } catch (IOException e) {
-            Catcher.catchException(e);
+            _this.catchException(e);
         }
     }
 }

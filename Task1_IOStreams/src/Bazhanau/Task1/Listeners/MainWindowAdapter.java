@@ -1,6 +1,5 @@
 package Bazhanau.Task1.Listeners;
 
-import Bazhanau.Catcher;
 import Bazhanau.FileService;
 import Bazhanau.IFileService;
 import Bazhanau.Listeners.AbstractMainWindowAdapter;
@@ -23,7 +22,7 @@ public class MainWindowAdapter extends AbstractMainWindowAdapter {
         try {
             fileService.writeText(file, _this.getFileText());
         } catch (IOException e) {
-            Catcher.catchException(e);
+            _this.catchException(e);
         }
     }
 }

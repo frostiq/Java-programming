@@ -10,6 +10,7 @@ public abstract class FileMainWindow extends JFrame {
     protected JMenuItem saveMenuItem = new JMenuItem("Захаваць файл...");
     protected JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
     protected String saveQuestion = "Захаваць файл перад выхадам?";
+    protected ICatcher catcher = new Catcher(this);
     protected boolean isSaved = true;
 
     public FileMainWindow() {
@@ -22,6 +23,10 @@ public abstract class FileMainWindow extends JFrame {
         setSize(800, 400);
         setLocationByPlatform(true);
         setVisible(true);
+    }
+
+    public void catchException(Exception e) {
+        catcher.catchException(e);
     }
 
     public int showOpenDialog() {

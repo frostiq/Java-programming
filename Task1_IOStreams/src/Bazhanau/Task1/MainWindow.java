@@ -1,7 +1,6 @@
 package Bazhanau.Task1;
 
 import Bazhanau.FileMainWindow;
-import Bazhanau.Listeners.TextAreaListener;
 import Bazhanau.Task1.Listeners.*;
 
 import javax.swing.*;
