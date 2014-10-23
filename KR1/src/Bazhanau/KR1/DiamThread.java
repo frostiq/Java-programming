@@ -1,8 +1,12 @@
 package Bazhanau.KR1;
 
+import javax.swing.*;
+
 public class DiamThread extends Thread {
     private IMainWindow window;
     private long sleepMilliseconds = 1500;
+    private int sizeIncrement = 10;
+    private int border = 100;
 
     public DiamThread(IMainWindow window) {
         this.window = window;
@@ -13,11 +17,12 @@ public class DiamThread extends Thread {
         try {
             while (!isInterrupted()) {
                 sleep(sleepMilliseconds);
-                synchronized (window.getPanel()) {
-                    int newHeight = window.getRectHeight() + 10;
-                    int newWidth = window.getRectWidth() + 10;
+                JPanel panel = window.getPanel();
+                synchronized (panel) {
+                    int newHeight = window.getRectHeight() + sizeIncrement;
+                    int newWidth = window.getRectWidth() + sizeIncrement;
 
-                    if (newHeight >= window.getHeight() || newWidth >= window.getWidth()) {
+                    if (newHeight - border >= panel.getHeight() || newWidth - border >= panel.getWidth()) {
                         interrupt();
                     }
 

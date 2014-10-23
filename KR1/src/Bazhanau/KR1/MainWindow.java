@@ -79,10 +79,10 @@ public class MainWindow extends JFrame implements IMainWindow {
     }
 
     private int getRectX() {
-        return getWidth() / 2 - rectWidth / 2;
+        return panel.getWidth() / 2 - rectWidth / 2;
     }
 
     private int getRectY() {
-        return getHeight() / 2 - rectHeight / 2;
+        return panel.getHeight() / 2 - rectHeight / 2;
     }
 }

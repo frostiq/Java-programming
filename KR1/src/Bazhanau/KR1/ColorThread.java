@@ -1,5 +1,7 @@
 package Bazhanau.KR1;
 
+import java.awt.*;
+
 public class ColorThread extends Thread {
     private IMainWindow window;
     private long sleepMilliseconds = 2500;
@@ -14,8 +16,14 @@ public class ColorThread extends Thread {
             while (!isInterrupted()) {
                 sleep(sleepMilliseconds);
                 synchronized (window.getPanel()) {
-                    
 
+                    Color newColor = window.getRectColor().darker();
+
+                    if (newColor.equals(Color.BLACK)) {
+                        interrupt();
+                    }
+
+                    window.setRectColor(newColor);
                     window.getPanel().validate();
                     window.getPanel().repaint();
                 }
