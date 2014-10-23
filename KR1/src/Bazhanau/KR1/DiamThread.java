@@ -22,7 +22,7 @@ public class DiamThread extends Thread {
                     int newHeight = window.getRectHeight() + sizeIncrement;
                     int newWidth = window.getRectWidth() + sizeIncrement;
 
-                    if (newHeight - border >= panel.getHeight() || newWidth - border >= panel.getWidth()) {
+                    if (newHeight + border >= panel.getHeight() || newWidth + border >= panel.getWidth()) {
                         interrupt();
                     }
 
