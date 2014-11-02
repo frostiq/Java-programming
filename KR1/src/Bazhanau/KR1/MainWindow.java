@@ -1,7 +1,7 @@
 package Bazhanau.KR1;
 
-import Bazhanau.Catcher;
 import Bazhanau.ICatcher;
+import Bazhanau.MessageBoxCatcher;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ public class MainWindow extends JFrame implements IMainWindow {
     private int rectHeight = 100;
     private Color rectColor = Color.BLUE;
 
-    private ICatcher catcher = new Catcher(this);
+    private ICatcher catcher = new MessageBoxCatcher(this);
 
     @Override
     public ICatcher getCatcher() {
@@ -72,6 +72,7 @@ public class MainWindow extends JFrame implements IMainWindow {
         setVisible(true);
         diamThread.start();
         colorThread.start();
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public static void main(String[] args) {

@@ -21,8 +21,4 @@ public interface IMainWindow {
     void setRectColor(Color rectColor);
 
     JPanel getPanel();
-
-    int getWidth();
-
-    int getHeight();
 }

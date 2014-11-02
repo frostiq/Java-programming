@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="RemoteExecServer">
+    <output-path>$PROJECT_DIR$/out/artifacts/RemoteExecServer</output-path>
+    <root id="archive" name="RemoteExecServer.jar">
+      <element id="module-output" name="Java-programming" />
+      <element id="module-output" name="Task3_Network" />
+      <element id="library" level="project" name="com.google.code.gson:gson:2.3" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/Task3_Network/src/Bazhanau/Task3/Server/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

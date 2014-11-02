@@ -3,10 +3,10 @@ package Bazhanau;
 import javax.swing.*;
 import java.awt.*;
 
-public class Catcher implements ICatcher {
+public class MessageBoxCatcher implements ICatcher {
     private Component component;
 
-    public Catcher(Component component) {
+    public MessageBoxCatcher(Component component) {
         this.component = component;
     }
 
