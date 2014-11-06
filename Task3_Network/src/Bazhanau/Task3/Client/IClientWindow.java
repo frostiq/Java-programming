@@ -15,5 +15,5 @@ public interface IClientWindow extends ILogWindow {
 
     JTextField getIpField();
 
-    JButton getConectButton();
+    JButton getConnectButton();
 }

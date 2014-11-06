@@ -39,6 +39,7 @@ public class ServerWindow extends JFrame implements IServerWindow {
             }
         });
 
+        log.setEditable(false);
         setSize(400, 600);
         setLocationByPlatform(true);
         setVisible(true);

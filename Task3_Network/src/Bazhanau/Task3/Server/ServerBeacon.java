@@ -7,17 +7,17 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.TreeSet;
+import java.util.ArrayList;
 
 /*
     @TODO:
     client-side interface
     logic
-    replace object streams
+    network error-catching
  */
 public class ServerBeacon extends Thread {
     private ServerSocket serverSocket;
-    private TreeSet<ServerDispatcher> dispatchers = new TreeSet<>();
+    private ArrayList<ServerDispatcher> dispatchers = new ArrayList<>();
     private IServerWindow wnd;
 
     public ServerBeacon(IServerWindow wnd) {
@@ -38,14 +38,16 @@ public class ServerBeacon extends Thread {
             wnd.printToLog(InetAddress.getLocalHost().getHostAddress() + ":" + serverSocket.getLocalPort());
             while (!isInterrupted()) {
                 Socket socket = serverSocket.accept();
-                wnd.printToLog(socket.getInetAddress().getHostAddress() + " connected\n");
+                wnd.printToLog(socket.getInetAddress().getHostAddress() + " connected");
                 ServerDispatcher dispatcher = new ServerDispatcher(socket, this);
                 dispatcher.start();
-                dispatchers.add(dispatcher);
+                synchronized (this) {
+                    dispatchers.add(dispatcher);
+                }
             }
         } catch (SocketException e) {
         } catch (IOException e) {
-            wnd.getCatcher().catchException(e);
+            wnd.printToLog(e.toString());
             this.interrupt();
         }
     }
@@ -54,7 +56,7 @@ public class ServerBeacon extends Thread {
     public void interrupt() {
         if (!isInterrupted()) {
             for (ServerDispatcher dispatcher : dispatchers) {
-                this.disconnectSocket(dispatcher);
+                dispatcher.destroyDispatcher();
             }
             try {
                 serverSocket.setReuseAddress(true);
@@ -70,10 +72,10 @@ public class ServerBeacon extends Thread {
         }
     }
 
-    public void disconnectSocket(ServerDispatcher dispatcher) {
+    public synchronized void disconnectSocket(ServerDispatcher dispatcher) {
         dispatcher.interrupt();
         dispatchers.remove(dispatcher);
-        wnd.printToLog(dispatcher.getInetAddress().getHostAddress() + " disconnected\n");
+        wnd.printToLog(dispatcher.getInetAddress().getHostAddress() + " disconnected");
     }
 
     public IServerWindow getServerWindow() {

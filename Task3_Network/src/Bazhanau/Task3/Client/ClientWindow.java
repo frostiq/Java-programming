@@ -14,9 +14,9 @@ import java.awt.event.ActionListener;
 public class ClientWindow extends JFrame implements IClientWindow {
     private ICatcher catcher = new LogCatcher(this);
 
-    private JTextField ipField = new JTextField();
+    private JTextField ipField = new JTextField("127.0.0.1:");
 
-    private JButton conectButton = new JButton("Connect to server");
+    private JButton connectButton = new JButton("Connect to server");
 
     private JTextArea log = new JTextArea();
 
@@ -24,11 +24,13 @@ public class ClientWindow extends JFrame implements IClientWindow {
 
     private JPanel controlPanel = new JPanel(new GridLayout(0, 2));
 
-    private ClientDispatcher clientDispatcher;
+    private ClientDispatcher clientDispatcher = null;
 
     private Command connectCommand = new ConnectToServerCommand(this);
 
-    private JButton sendButton = new JButton();
+    private JButton sendCommandButton = new JButton();
+
+    private JButton sendListDirButton = new JButton();
 
 
     public ClientWindow(String title) throws HeadlessException {
@@ -39,10 +41,10 @@ public class ClientWindow extends JFrame implements IClientWindow {
         log.setPreferredSize(new Dimension(0, 50));
         add(new JScrollPane(log), BorderLayout.SOUTH);
         add(controlPanel, BorderLayout.NORTH);
-        controlPanel.add(conectButton);
+        controlPanel.add(connectButton);
         controlPanel.add(ipField);
 
-        conectButton.addActionListener(new ActionListener() {
+        connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (clientDispatcher == null) {
@@ -53,19 +55,39 @@ public class ClientWindow extends JFrame implements IClientWindow {
             }
         });
 
-        add(sendButton, BorderLayout.WEST);
-        sendButton.addActionListener(new ActionListener() {
+        add(sendCommandButton, BorderLayout.WEST);
+        sendCommandButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String command = JOptionPane.showInputDialog("Enter command");
-                try {
-                    clientDispatcher.sendCommand(command);
-                } catch (Exception e1) {
-                    catcher.catchException(e1);
+                if (command != null && !command.isEmpty()) {
+                    try {
+                        clientDispatcher.sendCommand(command);
+                    } catch (Exception e1) {
+                        connectCommand.cancel();
+                        catcher.catchException(e1);
+                    }
                 }
             }
         });
 
+        add(sendListDirButton, BorderLayout.EAST);
+        sendListDirButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String root = JOptionPane.showInputDialog("Enter root");
+                if (root != null && !root.isEmpty()) {
+                    try {
+                        clientDispatcher.sendDirRequest(root);
+                    } catch (Exception e1) {
+                        connectCommand.cancel();
+                        catcher.catchException(e1);
+                    }
+                }
+            }
+        });
+
+        log.setEditable(false);
         setSize(400, 600);
         setLocationByPlatform(true);
         setVisible(true);
@@ -93,8 +115,8 @@ public class ClientWindow extends JFrame implements IClientWindow {
     }
 
     @Override
-    public JButton getConectButton() {
-        return conectButton;
+    public JButton getConnectButton() {
+        return connectButton;
     }
 
     @Override

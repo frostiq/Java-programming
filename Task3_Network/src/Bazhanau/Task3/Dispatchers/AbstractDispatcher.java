@@ -2,29 +2,31 @@ package Bazhanau.Task3.Dispatchers;
 
 import Bazhanau.ICatcher;
 import Bazhanau.Task3.Messages.MessageModel;
-import Bazhanau.Task3.Messages.ResponseMessageModel;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
 public abstract class AbstractDispatcher extends Thread {
+    protected ICatcher catcher;
     private Socket socket;
-    private ObjectInputStream inputStream;
-    private ObjectOutputStream outputStream;
-    private ICatcher catcher;
+    private JsonReader inputStream;
+    private JsonWriter outputStream;
+    private Gson gson;
 
     protected AbstractDispatcher(Socket socket, ICatcher catcher) {
         this.socket = socket;
         this.catcher = catcher;
+        this.gson = new Gson();
         this.setName(this.getClass().getName());
         try {
-            InputStream ddd = socket.getInputStream();
-            this.inputStream = new ObjectInputStream(socket.getInputStream());
-            this.outputStream = new ObjectOutputStream(socket.getOutputStream());
+            this.inputStream = new JsonReader(new InputStreamReader(socket.getInputStream()));
+            this.outputStream = new JsonWriter(new OutputStreamWriter(socket.getOutputStream()));
         } catch (Exception e) {
             catcher.catchException(e);
         }
@@ -46,17 +48,12 @@ public abstract class AbstractDispatcher extends Thread {
         return socket.isConnected();
     }
 
-    public void sendMessage(MessageModel message) throws IOException {
-        outputStream.writeObject(message);
-        outputStream.flush();
-    }
-
     @Override
     public void run() {
         try {
             MessageModel inputMessage, outputMessage;
             while (!isInterrupted()) {
-                inputMessage = (MessageModel) inputStream.readObject();
+                inputMessage = readMessage();
                 outputMessage = dispatch(inputMessage);
                 if (outputMessage != null) {
                     this.sendMessage(outputMessage);
@@ -69,10 +66,19 @@ public abstract class AbstractDispatcher extends Thread {
         }
     }
 
+    protected MessageModel readMessage() throws IOException {
+        MessageModel message;
+        message = gson.fromJson(inputStream, MessageModel.class);
+        return message;
+    }
+
+    protected void sendMessage(MessageModel message) throws IOException {
+        gson.toJson(message, MessageModel.class, outputStream);
+        outputStream.flush();
+    }
+
     protected void disconnect() {
         try {
-            inputStream.close();
-            outputStream.close();
             if (!socket.isClosed())
                 socket.close();
         } catch (IOException e) {
@@ -80,7 +86,7 @@ public abstract class AbstractDispatcher extends Thread {
         }
     }
 
-    protected abstract ResponseMessageModel dispatch(MessageModel message);
+    protected abstract MessageModel dispatch(MessageModel message);
 
-    protected abstract void destroyDispatcher();
+    public abstract void destroyDispatcher();
 }
