@@ -6,6 +6,7 @@ import Bazhanau.Task3.Messages.MessageModel;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ClientDispatcher extends AbstractDispatcher {
     protected ILogWindow logWindow;
@@ -50,7 +51,7 @@ public class ClientDispatcher extends AbstractDispatcher {
                     case EXECUTE:
                         break;
                     case LIST_DIR:
-                        for (String fileName : (String[]) message.body.get("file_names")) {
+                        for (String fileName : (ArrayList<String>) message.body.get("file_names")) {
                             logWindow.printToLog(fileName);
                         }
                         break;
