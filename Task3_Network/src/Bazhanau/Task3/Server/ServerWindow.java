@@ -1,7 +1,7 @@
 package Bazhanau.Task3.Server;
 
 import Bazhanau.ICatcher;
-import Bazhanau.MessageBoxCatcher;
+import Bazhanau.LogCatcher;
 import Bazhanau.Task3.Server.Commands.Command;
 import Bazhanau.Task3.Server.Commands.StartServerCommand;
 
@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ServerWindow extends JFrame implements IServerWindow {
-    private ICatcher catcher = new MessageBoxCatcher(this);
+    private ICatcher catcher = new LogCatcher(this);
 
     private JTextArea log = new JTextArea();
 
@@ -46,6 +46,10 @@ public class ServerWindow extends JFrame implements IServerWindow {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    public static void main(String[] args) {
+        new ServerWindow("Server");
+    }
+
     @Override
     public synchronized void printToLog(String message) {
         log.append(message);
@@ -70,9 +74,5 @@ public class ServerWindow extends JFrame implements IServerWindow {
     @Override
     public ICatcher getCatcher() {
         return catcher;
-    }
-
-    public static void main(String[] args) {
-        new ServerWindow("Server");
     }
 }

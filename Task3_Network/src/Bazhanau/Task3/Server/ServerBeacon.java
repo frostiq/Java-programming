@@ -9,12 +9,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 
-/*
-    @TODO:
-    client-side interface
-    logic
-    network error-catching
- */
 public class ServerBeacon extends Thread {
     private ServerSocket serverSocket;
     private ArrayList<ServerDispatcher> dispatchers = new ArrayList<>();

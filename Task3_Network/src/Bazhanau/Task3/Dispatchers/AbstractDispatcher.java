@@ -51,10 +51,15 @@ public abstract class AbstractDispatcher extends Thread {
     @Override
     public void run() {
         try {
-            MessageModel inputMessage, outputMessage;
+            MessageModel inputMessage, outputMessage = null;
             while (!isInterrupted()) {
                 inputMessage = readMessage();
-                outputMessage = dispatch(inputMessage);
+                if (inputMessage != null) {
+                    outputMessage = dispatch(inputMessage);
+                } else {
+                    destroyDispatcher();
+                }
+
                 if (outputMessage != null) {
                     this.sendMessage(outputMessage);
                 }
