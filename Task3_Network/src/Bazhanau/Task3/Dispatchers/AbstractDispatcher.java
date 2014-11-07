@@ -17,7 +17,6 @@ import java.net.SocketException;
 
 public abstract class AbstractDispatcher extends Thread implements Comparable<AbstractDispatcher> {
     protected ICatcher catcher;
-    protected boolean sendDisconnectMessage = false;
     private Socket socket;
     private JsonReader inputStream;
     private JsonWriter outputStream;
@@ -93,11 +92,6 @@ public abstract class AbstractDispatcher extends Thread implements Comparable<Ab
 
     protected void disconnect() {
         try {
-            if (sendDisconnectMessage) {
-                outputStream.beginArray();
-                outputStream.nullValue();
-                outputStream.endArray();
-            }
             if (!socket.isClosed())
                 socket.close();
         } catch (IOException e) {

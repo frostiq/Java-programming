@@ -13,7 +13,6 @@ public class ClientDispatcher extends AbstractDispatcher {
 
     public ClientDispatcher(Socket socket, ICatcher catcher, IClientWindow clientWindow) {
         super(socket, catcher);
-        this.sendDisconnectMessage = false;
         this.clientWindow = clientWindow;
     }
 

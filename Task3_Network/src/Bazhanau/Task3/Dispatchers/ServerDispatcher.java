@@ -12,7 +12,6 @@ public class ServerDispatcher extends AbstractDispatcher {
 
     public ServerDispatcher(Socket socket, ServerBeacon serverBeacon) {
         super(socket, serverBeacon.getServerWindow().getCatcher());
-        this.sendDisconnectMessage = false;
         this.serverBeacon = serverBeacon;
     }
 
