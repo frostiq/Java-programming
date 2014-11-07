@@ -16,4 +16,6 @@ public interface IClientWindow extends ILogWindow {
     JTextField getIpField();
 
     JButton getConnectButton();
+
+    void closeConnection();
 }

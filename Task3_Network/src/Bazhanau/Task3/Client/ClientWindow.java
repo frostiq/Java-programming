@@ -16,7 +16,7 @@ import java.awt.event.KeyEvent;
 public class ClientWindow extends JFrame implements IClientWindow {
     private ICatcher catcher = new LogCatcher(this);
 
-    private JTextField ipField = new JTextField("192.168.1.101:");
+    private JTextField ipField = new JTextField("192.168.1.104:");
 
     private JButton connectButton = new JButton("Connect to server");
 
@@ -49,7 +49,7 @@ public class ClientWindow extends JFrame implements IClientWindow {
         connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                handleConnecionAction();
+                handleConnectionAction();
             }
         });
 
@@ -89,8 +89,8 @@ public class ClientWindow extends JFrame implements IClientWindow {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    handleConnecionAction();
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    handleConnectionAction();
                 }
             }
         });
@@ -103,18 +103,6 @@ public class ClientWindow extends JFrame implements IClientWindow {
 
     public static void main(String[] args) {
         new ClientWindow("Client");
-    }
-
-    private void handleConnecionAction() {
-        try {
-            if (clientDispatcher == null) {
-                connectCommand.execute();
-            } else {
-                connectCommand.cancel();
-            }
-        } catch (Exception e1) {
-            catcher.catchException(e1);
-        }
     }
 
     @Override
@@ -146,5 +134,22 @@ public class ClientWindow extends JFrame implements IClientWindow {
     public synchronized void printToLog(String message) {
         log.append(message);
         log.append("\n");
+    }
+
+    @Override
+    public void closeConnection() {
+        connectCommand.cancel();
+    }
+
+    private void handleConnectionAction() {
+        try {
+            if (clientDispatcher == null) {
+                connectCommand.execute();
+            } else {
+                connectCommand.cancel();
+            }
+        } catch (Exception e1) {
+            catcher.catchException(e1);
+        }
     }
 }

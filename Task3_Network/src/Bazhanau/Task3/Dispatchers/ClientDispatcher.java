@@ -1,7 +1,7 @@
 package Bazhanau.Task3.Dispatchers;
 
 import Bazhanau.ICatcher;
-import Bazhanau.ILogWindow;
+import Bazhanau.Task3.Client.IClientWindow;
 import Bazhanau.Task3.Messages.MessageModel;
 
 import java.io.IOException;
@@ -9,12 +9,12 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class ClientDispatcher extends AbstractDispatcher {
-    protected ILogWindow logWindow;
+    protected IClientWindow clientWindow;
 
-    public ClientDispatcher(Socket socket, ICatcher catcher, ILogWindow logWindow) {
+    public ClientDispatcher(Socket socket, ICatcher catcher, IClientWindow clientWindow) {
         super(socket, catcher);
         this.sendDisconnectMessage = false;
-        this.logWindow = logWindow;
+        this.clientWindow = clientWindow;
     }
 
     public void sendCommand(String command) throws IOException {
@@ -35,7 +35,7 @@ public class ClientDispatcher extends AbstractDispatcher {
 
     @Override
     public synchronized void destroyDispatcher() {
-        this.interrupt();
+        this.clientWindow.closeConnection();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ClientDispatcher extends AbstractDispatcher {
                 throw new IOException("Invalid message type");
             }
 
-            logWindow.printToLog(message.header.toString() + ": " + message.body.get("status"));
+            clientWindow.printToLog(message.header.toString() + ": " + message.body.get("status"));
 
             if (message.body.get("status").equals("Ok")) {
                 switch (message.header) {
@@ -53,7 +53,7 @@ public class ClientDispatcher extends AbstractDispatcher {
                         break;
                     case LIST_DIR:
                         for (String fileName : (ArrayList<String>) message.body.get("file_names")) {
-                            logWindow.printToLog(fileName);
+                            clientWindow.printToLog(fileName);
                         }
                         break;
                     default:
