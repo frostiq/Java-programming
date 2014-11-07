@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ClientWindow extends JFrame implements IClientWindow {
     private ICatcher catcher = new LogCatcher(this);
@@ -47,15 +49,7 @@ public class ClientWindow extends JFrame implements IClientWindow {
         connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    if (clientDispatcher == null) {
-                        connectCommand.execute();
-                    } else {
-                        connectCommand.cancel();
-                    }
-                } catch (Exception e1) {
-                    catcher.catchException(e1);
-                }
+                handleConnecionAction();
             }
         });
 
@@ -91,6 +85,16 @@ public class ClientWindow extends JFrame implements IClientWindow {
             }
         });
 
+        ipField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    handleConnecionAction();
+                }
+            }
+        });
+
         setSize(400, 600);
         setLocationByPlatform(true);
         setVisible(true);
@@ -99,6 +103,18 @@ public class ClientWindow extends JFrame implements IClientWindow {
 
     public static void main(String[] args) {
         new ClientWindow("Client");
+    }
+
+    private void handleConnecionAction() {
+        try {
+            if (clientDispatcher == null) {
+                connectCommand.execute();
+            } else {
+                connectCommand.cancel();
+            }
+        } catch (Exception e1) {
+            catcher.catchException(e1);
+        }
     }
 
     @Override
