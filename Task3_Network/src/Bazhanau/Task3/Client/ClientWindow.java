@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 public class ClientWindow extends JFrame implements IClientWindow {
     private ICatcher catcher = new LogCatcher(this);
 
-    private JTextField ipField = new JTextField("127.0.0.1:");
+    private JTextField ipField = new JTextField("192.168.1.101:");
 
     private JButton connectButton = new JButton("Connect to server");
 
@@ -38,7 +38,7 @@ public class ClientWindow extends JFrame implements IClientWindow {
 
         setLayout(new BorderLayout());
         add(new JScrollPane(tree), BorderLayout.CENTER);
-        log.setPreferredSize(new Dimension(0, 50));
+        log.setEditable(false);
         add(new JScrollPane(log), BorderLayout.SOUTH);
         add(controlPanel, BorderLayout.NORTH);
         controlPanel.add(connectButton);
@@ -91,7 +91,6 @@ public class ClientWindow extends JFrame implements IClientWindow {
             }
         });
 
-        log.setEditable(false);
         setSize(400, 600);
         setLocationByPlatform(true);
         setVisible(true);
