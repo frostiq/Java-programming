@@ -7,11 +7,11 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class ServerBeacon extends Thread {
     private ServerSocket serverSocket;
-    private ArrayList<ServerDispatcher> dispatchers = new ArrayList<>();
+    private ConcurrentSkipListSet<ServerDispatcher> dispatchers = new ConcurrentSkipListSet<>();
     private IServerWindow wnd;
 
     public ServerBeacon(IServerWindow wnd) {
@@ -65,7 +65,7 @@ public class ServerBeacon extends Thread {
         }
     }
 
-    public synchronized void disconnectSocket(ServerDispatcher dispatcher) {
+    public void disconnectSocket(ServerDispatcher dispatcher) {
         dispatcher.interrupt();
         dispatchers.remove(dispatcher);
         wnd.printToLog(dispatcher.getInetAddress().getHostAddress() + " disconnected");

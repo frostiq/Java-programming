@@ -15,7 +15,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 
-public abstract class AbstractDispatcher extends Thread {
+public abstract class AbstractDispatcher extends Thread implements Comparable<AbstractDispatcher> {
     protected ICatcher catcher;
     private Socket socket;
     private JsonReader inputStream;
@@ -54,13 +54,13 @@ public abstract class AbstractDispatcher extends Thread {
     @Override
     public void run() {
         try {
-            MessageModel inputMessage, outputMessage;
+            MessageModel inputMessage, outputMessage = null;
             while (!isInterrupted()) {
                 inputMessage = readMessage();
                 if (inputMessage != null) {
                     outputMessage = dispatch(inputMessage);
                 } else {
-                    break;
+                    destroyDispatcher();
                 }
                 if (outputMessage != null) {
                     this.sendMessage(outputMessage);
@@ -71,10 +71,10 @@ public abstract class AbstractDispatcher extends Thread {
             Throwable cause = e.getCause();
             if (!(cause instanceof ConnectionResetException || cause instanceof SocketException)) {
                 catcher.catchException(e);
+                destroyDispatcher();
             }
         } catch (Exception e) {
             catcher.catchException(e);
-        } finally {
             destroyDispatcher();
         }
     }
@@ -92,6 +92,8 @@ public abstract class AbstractDispatcher extends Thread {
 
     protected void disconnect() {
         try {
+            outputStream.nullValue();
+            outputStream.flush();
             if (!socket.isClosed())
                 socket.close();
         } catch (IOException e) {
@@ -102,4 +104,9 @@ public abstract class AbstractDispatcher extends Thread {
     protected abstract MessageModel dispatch(MessageModel message);
 
     public abstract void destroyDispatcher();
+
+    @Override
+    public int compareTo(AbstractDispatcher o) {
+        return Integer.compare(socket.getLocalPort(), o.socket.getLocalPort());
+    }
 }
