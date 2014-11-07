@@ -47,10 +47,14 @@ public class ClientWindow extends JFrame implements IClientWindow {
         connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (clientDispatcher == null) {
-                    connectCommand.execute();
-                } else {
-                    connectCommand.cancel();
+                try {
+                    if (clientDispatcher == null) {
+                        connectCommand.execute();
+                    } else {
+                        connectCommand.cancel();
+                    }
+                } catch (Exception e1) {
+                    catcher.catchException(e1);
                 }
             }
         });
@@ -94,6 +98,10 @@ public class ClientWindow extends JFrame implements IClientWindow {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    public static void main(String[] args) {
+        new ClientWindow("Client");
+    }
+
     @Override
     public ClientDispatcher getClientDispatcher() {
         return clientDispatcher;
@@ -123,9 +131,5 @@ public class ClientWindow extends JFrame implements IClientWindow {
     public synchronized void printToLog(String message) {
         log.append(message);
         log.append("\n");
-    }
-
-    public static void main(String[] args) {
-        new ClientWindow("Client");
     }
 }

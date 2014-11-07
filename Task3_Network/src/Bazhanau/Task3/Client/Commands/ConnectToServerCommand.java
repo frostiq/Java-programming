@@ -4,6 +4,7 @@ import Bazhanau.Task3.Client.IClientWindow;
 import Bazhanau.Task3.Client.SocketParser;
 import Bazhanau.Task3.Dispatchers.ClientDispatcher;
 
+import java.io.IOException;
 import java.net.Socket;
 
 public class ConnectToServerCommand extends Command {
@@ -12,7 +13,7 @@ public class ConnectToServerCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws IOException {
         SocketParser socketParser = new SocketParser(wnd.getCatcher());
         Socket socket = socketParser.parse(wnd.getIpField().getText());
         wnd.setClientDispatcher(new ClientDispatcher(socket, wnd.getCatcher(), wnd));
