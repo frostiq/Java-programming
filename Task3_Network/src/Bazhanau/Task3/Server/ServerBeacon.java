@@ -28,8 +28,7 @@ public class ServerBeacon extends Thread {
     @Override
     public void run() {
         try {
-            wnd.printToLog("Server is started");
-            wnd.printToLog(InetAddress.getLocalHost().getHostAddress() + ":" + serverSocket.getLocalPort());
+            wnd.printToLog("Server is started at " + InetAddress.getLocalHost().getHostAddress() + ":" + serverSocket.getLocalPort());
             while (!isInterrupted()) {
                 Socket socket = serverSocket.accept();
                 wnd.printToLog(socket.getInetAddress().getHostAddress() + " connected");
@@ -39,7 +38,7 @@ public class ServerBeacon extends Thread {
                     dispatchers.add(dispatcher);
                 }
             }
-        } catch (SocketException e) {
+        } catch (SocketException e) { //server is stopped manually
         } catch (IOException e) {
             wnd.printToLog(e.toString());
             this.interrupt();
