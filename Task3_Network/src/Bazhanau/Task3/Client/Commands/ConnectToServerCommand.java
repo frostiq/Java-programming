@@ -31,6 +31,7 @@ public class ConnectToServerCommand extends Command {
     @Override
     public void cancel() {
         wnd.getConnectButton().setText("Connect to server");
+        wnd.printToLog("Disconnected from server");
         if (!wnd.getClientDispatcher().isInterrupted()) {
             wnd.getClientDispatcher().interrupt();
         }
