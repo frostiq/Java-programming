@@ -7,9 +7,9 @@ import Bazhanau.Task3.Client.Commands.ConnectToServerCommand;
 import Bazhanau.Task3.Dispatchers.ClientDispatcher;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -20,9 +20,9 @@ public class ClientWindow extends JFrame implements IClientWindow {
 
     private JButton connectButton = new JButton("Connect to server");
 
-    private JTextArea log = new JTextArea();
+    private JTree tree = new JTree(new DefaultTreeModel(null, true));
 
-    private JTree tree = new JTree();
+    private JTextArea log = new JTextArea();
 
     private JPanel controlPanel = new JPanel(new GridLayout(0, 2));
 
@@ -46,33 +46,23 @@ public class ClientWindow extends JFrame implements IClientWindow {
         controlPanel.add(connectButton);
         controlPanel.add(ipField);
 
-        connectButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleConnectionAction();
-            }
-        });
+        connectButton.addActionListener((e) -> handleConnectionAction());
 
         add(sendCommandButton, BorderLayout.WEST);
-        sendCommandButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        sendCommandButton.addActionListener((e) -> {
                 String command = JOptionPane.showInputDialog("Enter command");
                 if (command != null && !command.isEmpty()) {
                     try {
-                        clientDispatcher.sendCommand(command);
+                        clientDispatcher.sendExecRequest(command);
                     } catch (Exception e1) {
                         connectCommand.cancel();
                         catcher.catchException(e1);
                     }
                 }
-            }
         });
 
         add(sendListDirButton, BorderLayout.EAST);
-        sendListDirButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        sendListDirButton.addActionListener((e) -> {
                 String root = JOptionPane.showInputDialog("Enter root");
                 if (root != null && !root.isEmpty()) {
                     try {
@@ -82,7 +72,6 @@ public class ClientWindow extends JFrame implements IClientWindow {
                         catcher.catchException(e1);
                     }
                 }
-            }
         });
 
         ipField.addKeyListener(new KeyAdapter() {
@@ -128,6 +117,11 @@ public class ClientWindow extends JFrame implements IClientWindow {
     @Override
     public JButton getConnectButton() {
         return connectButton;
+    }
+
+    @Override
+    public void setTreeModel(TreeModel treeModel) {
+        tree.setModel(treeModel);
     }
 
     @Override

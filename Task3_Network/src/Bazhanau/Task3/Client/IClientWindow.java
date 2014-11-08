@@ -5,6 +5,7 @@ import Bazhanau.ILogWindow;
 import Bazhanau.Task3.Dispatchers.ClientDispatcher;
 
 import javax.swing.*;
+import javax.swing.tree.TreeModel;
 
 public interface IClientWindow extends ILogWindow {
     ClientDispatcher getClientDispatcher();
@@ -16,6 +17,8 @@ public interface IClientWindow extends ILogWindow {
     JTextField getIpField();
 
     JButton getConnectButton();
+
+    void setTreeModel(TreeModel treeModel);
 
     void closeConnection();
 }

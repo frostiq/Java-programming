@@ -1,9 +1,12 @@
 package Bazhanau.Task3.Client.Commands;
 
+import Bazhanau.Task3.Client.FileTreeNode;
 import Bazhanau.Task3.Client.IClientWindow;
 import Bazhanau.Task3.Client.SocketParser;
 import Bazhanau.Task3.Dispatchers.ClientDispatcher;
 
+import javax.swing.tree.DefaultTreeModel;
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -22,6 +25,7 @@ public class ConnectToServerCommand extends Command {
             wnd.printToLog("Connected successfully to " + wnd.getClientDispatcher().getInetAddress());
             wnd.getConnectButton().setText("Disconnect");
             wnd.getClientDispatcher().start();
+            wnd.setTreeModel(new DefaultTreeModel(new FileTreeNode(wnd.getClientDispatcher(), new File(""))));
         } else {
             wnd.printToLog("Connection failed!");
             this.cancel();
@@ -35,6 +39,7 @@ public class ConnectToServerCommand extends Command {
         if (!wnd.getClientDispatcher().isInterrupted()) {
             wnd.getClientDispatcher().interrupt();
         }
+        wnd.setTreeModel(new DefaultTreeModel(null, true));
         wnd.setClientDispatcher(null);
     }
 }
