@@ -6,7 +6,6 @@ import Bazhanau.Task3.Client.SocketParser;
 import Bazhanau.Task3.Dispatchers.ClientDispatcher;
 
 import javax.swing.tree.DefaultTreeModel;
-import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -25,7 +24,7 @@ public class ConnectToServerCommand extends Command {
             wnd.printToLog("Connected successfully to " + wnd.getClientDispatcher().getInetAddress());
             wnd.getConnectButton().setText("Disconnect");
             wnd.getClientDispatcher().start();
-            wnd.setTreeModel(new DefaultTreeModel(new FileTreeNode(wnd.getClientDispatcher(), new File(""))));
+            wnd.setTreeModel(new DefaultTreeModel(new FileTreeNode(wnd.getClientDispatcher(), "C:\\"), true));
         } else {
             wnd.printToLog("Connection failed!");
             this.cancel();

@@ -3,7 +3,6 @@ package Bazhanau.Task3.Client;
 import Bazhanau.Task3.Dispatchers.ClientDispatcher;
 
 import javax.swing.tree.TreeNode;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,27 +14,42 @@ public class FileTreeNode implements TreeNode {
     private ClientDispatcher dispatcher;
     private FileTreeNode parent;
     private List<FileTreeNode> children;
-    private File currentPath;
+    private String currentPath;
 
-    private FileTreeNode(ClientDispatcher dispatcher, File currentPath, FileTreeNode parent) {
+    private FileTreeNode(ClientDispatcher dispatcher, String currentPath, FileTreeNode parent) {
         this.dispatcher = dispatcher;
         this.currentPath = currentPath;
         this.parent = parent;
-        initChildren();
     }
 
-    public FileTreeNode(ClientDispatcher dispatcher, File currentPath) {
+    public FileTreeNode(ClientDispatcher dispatcher, String currentPath) {
         this(dispatcher, currentPath, null);
+    }
+
+    private static String getName(String path) {
+        String[] names = path.split("[/\\\\]");
+        return names[names.length - 1];
+    }
+
+    private static boolean isDirectory(String path) {
+        return !getName(path).contains(".");
+    }
+
+    public List<FileTreeNode> getChildren() {
+        if (children == null) {
+            initChildren();
+        }
+        return children;
     }
 
     private void initChildren() {
         try {
-            if (currentPath.isDirectory()) {
-                List<String> names = this.dispatcher.sendDirRequest(currentPath.getAbsolutePath());
-                children = names.stream().map((childName) -> new FileTreeNode(dispatcher, new File(currentPath, childName), this))
-                        .collect(Collectors.toList());
-            } else {
-                children = new ArrayList<>();
+            children = new ArrayList<>();
+            if (isDirectory(currentPath)) {
+                List<String> names = this.dispatcher.sendDirRequest(currentPath);
+                children.addAll(names.stream()
+                        .map(name -> new FileTreeNode(dispatcher, currentPath + "\\" + name, this))
+                        .collect(Collectors.toList()));
             }
         } catch (IOException e) {
             dispatcher.getCatcher().catchException(e);
@@ -44,12 +58,12 @@ public class FileTreeNode implements TreeNode {
 
     @Override
     public TreeNode getChildAt(int childIndex) {
-        return children.get(childIndex);
+        return getChildren().get(childIndex);
     }
 
     @Override
     public int getChildCount() {
-        return children.size();
+        return getChildren().size();
     }
 
     @Override
@@ -59,26 +73,32 @@ public class FileTreeNode implements TreeNode {
 
     @Override
     public int getIndex(TreeNode node) {
-        return children.indexOf((FileTreeNode) node);
+        return getChildren().indexOf((FileTreeNode) node);
     }
 
     @Override
     public boolean getAllowsChildren() {
-        return currentPath.isDirectory();
+        return isDirectory(currentPath);
     }
 
     @Override
     public boolean isLeaf() {
-        return children.isEmpty();
+        initChildren();
+        return getChildren().isEmpty();
     }
 
     @Override
     public Enumeration children() {
-        return Collections.enumeration(children);
+        initChildren();
+        return Collections.enumeration(getChildren());
     }
 
     @Override
     public String toString() {
-        return currentPath.getName();
+        return getName(currentPath);
+    }
+
+    public String getCurrentPath() {
+        return currentPath;
     }
 }

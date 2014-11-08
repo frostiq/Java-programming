@@ -22,7 +22,9 @@ public class ClientDispatcher extends AbstractDispatcher {
         this.sendMessage(request);
         requestResponseMap.put(request.id, request);
         try {
-            request.wait();
+            synchronized (request) {
+                request.wait();
+            }
         } catch (InterruptedException e) {
             catcher.catchException(e);
         }
@@ -61,20 +63,13 @@ public class ClientDispatcher extends AbstractDispatcher {
                 throw new IOException("Invalid message type");
             }
 
-            clientWindow.printToLog(message.header.toString() + ": " + message.body.get("status"));
+            //clientWindow.printToLog(message.header.toString() + ": " + message.body.get("status"));
 
             if (message.body.get("status").equals("Ok")) {
-                switch (message.header) {
-                    case EXECUTE:
-                    case LIST_DIR:
-                        MessageModel lock = requestResponseMap.get(message.request.id);
-                        requestResponseMap.replace(message.request.id, message);
-                        synchronized (lock) {
-                            lock.notify();
-                        }
-                        break;
-                    default:
-                        throw new IOException("Invalid message header");
+                MessageModel lock = requestResponseMap.get(message.request.id);
+                requestResponseMap.replace(message.request.id, message);
+                synchronized (lock) {
+                    lock.notify();
                 }
             } else {
                 throw new RuntimeException("response status: " + message.body.get("status"));

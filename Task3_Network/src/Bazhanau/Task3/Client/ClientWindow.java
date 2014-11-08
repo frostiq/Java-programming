@@ -9,9 +9,13 @@ import Bazhanau.Task3.Dispatchers.ClientDispatcher;
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class ClientWindow extends JFrame implements IClientWindow {
     private ICatcher catcher = new LogCatcher(this);
@@ -30,15 +34,13 @@ public class ClientWindow extends JFrame implements IClientWindow {
 
     private Command connectCommand = new ConnectToServerCommand(this);
 
-    private JButton sendCommandButton = new JButton();
-
-    private JButton sendListDirButton = new JButton();
-
 
     public ClientWindow(String title) throws HeadlessException {
         super(title);
 
         setLayout(new BorderLayout());
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+
         add(new JScrollPane(tree), BorderLayout.CENTER);
         log.setEditable(false);
         add(new JScrollPane(log), BorderLayout.SOUTH);
@@ -48,38 +50,27 @@ public class ClientWindow extends JFrame implements IClientWindow {
 
         connectButton.addActionListener((e) -> handleConnectionAction());
 
-        add(sendCommandButton, BorderLayout.WEST);
-        sendCommandButton.addActionListener((e) -> {
-                String command = JOptionPane.showInputDialog("Enter command");
-                if (command != null && !command.isEmpty()) {
-                    try {
-                        clientDispatcher.sendExecRequest(command);
-                    } catch (Exception e1) {
-                        connectCommand.cancel();
-                        catcher.catchException(e1);
-                    }
-                }
-        });
-
-        add(sendListDirButton, BorderLayout.EAST);
-        sendListDirButton.addActionListener((e) -> {
-                String root = JOptionPane.showInputDialog("Enter root");
-                if (root != null && !root.isEmpty()) {
-                    try {
-                        clientDispatcher.sendDirRequest(root);
-                    } catch (Exception e1) {
-                        connectCommand.cancel();
-                        catcher.catchException(e1);
-                    }
-                }
-        });
-
         ipField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
                 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
                     handleConnectionAction();
+                }
+            }
+        });
+
+        tree.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() == 2) {
+                    try {
+                        String path = ((FileTreeNode) tree.getSelectionPath().getLastPathComponent()).getCurrentPath();
+                        clientDispatcher.sendExecRequest(path);
+                    } catch (IOException e1) {
+                        catcher.catchException(e1);
+                    }
                 }
             }
         });
