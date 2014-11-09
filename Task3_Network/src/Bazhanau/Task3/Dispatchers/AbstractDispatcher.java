@@ -6,14 +6,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import sun.net.ConnectionResetException;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketException;
 
 public abstract class AbstractDispatcher extends Thread implements Comparable<AbstractDispatcher> {
     protected ICatcher catcher;
@@ -68,10 +66,6 @@ public abstract class AbstractDispatcher extends Thread implements Comparable<Ab
             }
 
         } catch (JsonSyntaxException e) {
-            Throwable cause = e.getCause();
-            if (!(cause instanceof ConnectionResetException || cause instanceof SocketException)) {
-                catcher.catchException(e);
-            }
             destroyDispatcher();
         } catch (Exception e) {
             catcher.catchException(e);
