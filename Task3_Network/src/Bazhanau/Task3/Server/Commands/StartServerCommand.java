@@ -9,14 +9,14 @@ public class StartServerCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    public synchronized void execute() {
         wnd.setServerBeacon(new ServerBeacon(wnd));
         wnd.getServerBeacon().start();
         wnd.getStartStopButton().setText("Stop server");
     }
 
     @Override
-    public void cancel() {
+    public synchronized void cancel() {
         wnd.getServerBeacon().interrupt();
         wnd.setServerBeacon(null);
         wnd.getStartStopButton().setText("Start server");

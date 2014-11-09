@@ -66,8 +66,10 @@ public class ClientWindow extends JFrame implements IClientWindow {
                 super.mouseClicked(e);
                 if (e.getClickCount() == 2) {
                     try {
-                        String path = ((FileTreeNode) tree.getSelectionPath().getLastPathComponent()).getCurrentPath();
-                        clientDispatcher.sendExecRequest(path);
+                        FileTreeNode file = (FileTreeNode) tree.getSelectionPath().getLastPathComponent();
+                        if (!file.getAllowsChildren()) {
+                            clientDispatcher.sendExecRequest(file.getCurrentPath());
+                        }
                     } catch (IOException e1) {
                         catcher.catchException(e1);
                     }
@@ -131,7 +133,7 @@ public class ClientWindow extends JFrame implements IClientWindow {
             if (clientDispatcher == null) {
                 connectCommand.execute();
             } else {
-                connectCommand.cancel();
+                clientDispatcher.destroyDispatcher();
             }
         } catch (Exception e1) {
             catcher.catchException(e1);

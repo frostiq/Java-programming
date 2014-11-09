@@ -15,7 +15,7 @@ public class ConnectToServerCommand extends Command {
     }
 
     @Override
-    public void execute() throws IOException {
+    public synchronized void execute() throws IOException {
         SocketParser socketParser = new SocketParser(wnd.getCatcher());
         Socket socket = socketParser.parse(wnd.getIpField().getText());
         wnd.setClientDispatcher(new ClientDispatcher(socket, wnd.getCatcher(), wnd));
@@ -32,13 +32,15 @@ public class ConnectToServerCommand extends Command {
     }
 
     @Override
-    public void cancel() {
-        wnd.getConnectButton().setText("Connect to server");
-        wnd.printToLog("Disconnected from server");
-        if (!wnd.getClientDispatcher().isInterrupted()) {
-            wnd.getClientDispatcher().interrupt();
+    public synchronized void cancel() {
+        if (wnd.getClientDispatcher() != null) {
+            wnd.getConnectButton().setText("Connect to server");
+            wnd.printToLog("Disconnected from server");
+            if (!wnd.getClientDispatcher().isInterrupted()) {
+                wnd.getClientDispatcher().interrupt();
+            }
+            wnd.setTreeModel(new DefaultTreeModel(null, true));
+            wnd.setClientDispatcher(null);
         }
-        wnd.setTreeModel(new DefaultTreeModel(null, true));
-        wnd.setClientDispatcher(null);
     }
 }
