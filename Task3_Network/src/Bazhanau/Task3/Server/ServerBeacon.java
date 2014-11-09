@@ -66,9 +66,9 @@ public class ServerBeacon extends Thread {
     }
 
     public void disconnectSocket(ServerDispatcher dispatcher) {
-        dispatcher.interrupt();
         dispatchers.remove(dispatcher);
         wnd.printToLog(dispatcher.getInetAddress().getHostAddress() + " disconnected");
+        dispatcher.interrupt();
     }
 
     public IServerWindow getServerWindow() {
