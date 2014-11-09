@@ -71,8 +71,8 @@ public abstract class AbstractDispatcher extends Thread implements Comparable<Ab
             Throwable cause = e.getCause();
             if (!(cause instanceof ConnectionResetException || cause instanceof SocketException)) {
                 catcher.catchException(e);
-                destroyDispatcher();
             }
+            destroyDispatcher();
         } catch (Exception e) {
             catcher.catchException(e);
             destroyDispatcher();
