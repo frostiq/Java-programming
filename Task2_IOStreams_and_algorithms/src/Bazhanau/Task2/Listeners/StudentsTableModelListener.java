@@ -1,6 +1,6 @@
 package Bazhanau.Task2.Listeners;
 
-import Bazhanau.FileMainWindow;
+import Bazhanau.FileWindow.FileMainWindow;
 import Bazhanau.Task2.Models.GroupsTableModel;
 import Bazhanau.Task2.Models.StudentsTableModel;
 

@@ -1,4 +1,4 @@
-package Bazhanau;
+package Bazhanau.Logging;
 
 public class LogCatcher implements ICatcher {
     private ILogWindow window;

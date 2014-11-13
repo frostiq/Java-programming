@@ -1,8 +1,8 @@
 package Bazhanau.Task2.Listeners;
 
-import Bazhanau.FileService;
-import Bazhanau.IFileService;
-import Bazhanau.Listeners.AbstractOpenButtonListener;
+import Bazhanau.FileService.FileService;
+import Bazhanau.FileService.IFileService;
+import Bazhanau.FileWindow.AbstractOpenButtonListener;
 import Bazhanau.Task2.MainWindow;
 import Bazhanau.Task2.Models.StudentModel;
 

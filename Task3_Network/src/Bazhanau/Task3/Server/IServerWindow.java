@@ -1,7 +1,7 @@
 package Bazhanau.Task3.Server;
 
-import Bazhanau.ICatcher;
-import Bazhanau.ILogWindow;
+import Bazhanau.Logging.ICatcher;
+import Bazhanau.Logging.ILogWindow;
 
 import javax.swing.*;
 

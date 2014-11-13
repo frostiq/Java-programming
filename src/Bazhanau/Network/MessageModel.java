@@ -1,4 +1,4 @@
-package Bazhanau.Task3.Messages;
+package Bazhanau.Network;
 
 import java.io.Serializable;
 import java.util.HashMap;

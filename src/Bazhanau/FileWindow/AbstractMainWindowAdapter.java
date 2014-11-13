@@ -1,6 +1,4 @@
-package Bazhanau.Listeners;
-
-import Bazhanau.FileMainWindow;
+package Bazhanau.FileWindow;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;

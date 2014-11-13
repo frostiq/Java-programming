@@ -1,4 +1,4 @@
-package Bazhanau;
+package Bazhanau.Logging;
 
 import javax.swing.*;
 import java.awt.*;

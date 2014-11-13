@@ -1,7 +1,7 @@
 package Bazhanau.Task3.Client;
 
-import Bazhanau.ICatcher;
-import Bazhanau.LogCatcher;
+import Bazhanau.Logging.ICatcher;
+import Bazhanau.Logging.LogCatcher;
 import Bazhanau.Task3.Client.Commands.Command;
 import Bazhanau.Task3.Client.Commands.ConnectToServerCommand;
 import Bazhanau.Task3.Dispatchers.ClientDispatcher;

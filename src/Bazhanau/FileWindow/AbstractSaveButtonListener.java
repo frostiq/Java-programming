@@ -1,6 +1,4 @@
-package Bazhanau.Listeners;
-
-import Bazhanau.FileMainWindow;
+package Bazhanau.FileWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

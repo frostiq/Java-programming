@@ -1,6 +1,6 @@
 package Bazhanau.KR1;
 
-import Bazhanau.ICatcher;
+import Bazhanau.Logging.ICatcher;
 
 import javax.swing.*;
 import java.awt.*;

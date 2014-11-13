@@ -1,6 +1,6 @@
 package Bazhanau.Task2;
 
-import Bazhanau.FileMainWindow;
+import Bazhanau.FileWindow.FileMainWindow;
 import Bazhanau.Task2.Listeners.*;
 import Bazhanau.Task2.Models.GroupsTableModel;
 import Bazhanau.Task2.Models.StudentModel;
@@ -21,15 +21,10 @@ public class MainWindow extends FileMainWindow {
     private String[] groupsColumnNames = new String[]{"Група", "Сярэдні бал"};
 
     private GroupsTableModel groupsTableModel = new GroupsTableModel(groupsColumnNames);
-
-    private StudentsTableModelListener studentsTableModelListener = new StudentsTableModelListener();
-
-    private StudentsTableModel studentsTableModel = new StudentsTableModel(studentColumnNames, studentsTableModelListener);
-
-    private JTable studentsTable = new JTable(studentsTableModel);
-
     private JTable groupsTable = new JTable(groupsTableModel);
-
+    private StudentsTableModelListener studentsTableModelListener = new StudentsTableModelListener();
+    private StudentsTableModel studentsTableModel = new StudentsTableModel(studentColumnNames, studentsTableModelListener);
+    private JTable studentsTable = new JTable(studentsTableModel);
     private JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
     private JButton addButton = new JButton("Дадаць студэнта");
@@ -62,6 +57,10 @@ public class MainWindow extends FileMainWindow {
         });
     }
 
+    public static void main(String[] args) {
+        new MainWindow();
+    }
+
     @Override
     public boolean hasNoInfoToSave() {
         return studentsTableModel.getRowCount() == 0;
@@ -85,9 +84,5 @@ public class MainWindow extends FileMainWindow {
 
     public void setData(ArrayList<StudentModel> data) {
         studentsTableModel.setStudents(data);
-    }
-
-    public static void main(String[] args) {
-        new MainWindow();
     }
 }

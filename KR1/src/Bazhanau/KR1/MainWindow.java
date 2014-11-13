@@ -1,7 +1,7 @@
 package Bazhanau.KR1;
 
-import Bazhanau.ICatcher;
-import Bazhanau.MessageBoxCatcher;
+import Bazhanau.Logging.ICatcher;
+import Bazhanau.Logging.MessageBoxCatcher;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +13,29 @@ public class MainWindow extends JFrame implements IMainWindow {
     private int rectWidth = 100;
     private int rectHeight = 100;
     private Color rectColor = Color.BLUE;
-
+    private JPanel panel = new JPanel() {
+        @Override
+        protected synchronized void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.setColor(rectColor);
+            g.fillRect(getRectX(), getRectY(), rectWidth, rectHeight);
+        }
+    };
     private ICatcher catcher = new MessageBoxCatcher(this);
+
+    public MainWindow() {
+        add(panel);
+        setSize(800, 400);
+        setLocationByPlatform(true);
+        setVisible(true);
+        diamThread.start();
+        colorThread.start();
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public static void main(String[] args) {
+        new MainWindow();
+    }
 
     @Override
     public ICatcher getCatcher() {
@@ -54,29 +75,6 @@ public class MainWindow extends JFrame implements IMainWindow {
     @Override
     public JPanel getPanel() {
         return panel;
-    }
-
-    private JPanel panel = new JPanel() {
-        @Override
-        protected synchronized void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.setColor(rectColor);
-            g.fillRect(getRectX(), getRectY(), rectWidth, rectHeight);
-        }
-    };
-
-    public MainWindow() {
-        add(panel);
-        setSize(800, 400);
-        setLocationByPlatform(true);
-        setVisible(true);
-        diamThread.start();
-        colorThread.start();
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
-
-    public static void main(String[] args) {
-        new MainWindow();
     }
 
     private int getRectX() {

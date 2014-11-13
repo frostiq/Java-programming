@@ -1,4 +1,7 @@
-package Bazhanau;
+package Bazhanau.FileWindow;
+
+import Bazhanau.Logging.ICatcher;
+import Bazhanau.Logging.MessageBoxCatcher;
 
 import javax.swing.*;
 import java.io.File;

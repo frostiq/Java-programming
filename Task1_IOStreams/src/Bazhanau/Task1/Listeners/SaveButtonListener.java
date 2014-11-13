@@ -1,8 +1,8 @@
 package Bazhanau.Task1.Listeners;
 
-import Bazhanau.FileService;
-import Bazhanau.IFileService;
-import Bazhanau.Listeners.AbstractSaveButtonListener;
+import Bazhanau.FileService.FileService;
+import Bazhanau.FileService.IFileService;
+import Bazhanau.FileWindow.AbstractSaveButtonListener;
 import Bazhanau.Task1.MainWindow;
 
 import java.io.File;

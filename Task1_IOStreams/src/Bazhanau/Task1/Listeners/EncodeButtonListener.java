@@ -1,7 +1,7 @@
 package Bazhanau.Task1.Listeners;
 
-import Bazhanau.FileService;
-import Bazhanau.IFileService;
+import Bazhanau.FileService.FileService;
+import Bazhanau.FileService.IFileService;
 import Bazhanau.Task1.MainWindow;
 
 import java.awt.event.ActionEvent;

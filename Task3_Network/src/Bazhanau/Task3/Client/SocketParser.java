@@ -1,6 +1,6 @@
 package Bazhanau.Task3.Client;
 
-import Bazhanau.ICatcher;
+import Bazhanau.Logging.ICatcher;
 
 import java.io.IOException;
 import java.net.InetAddress;

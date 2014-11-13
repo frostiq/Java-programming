@@ -1,7 +1,6 @@
-package Bazhanau.Task3.Dispatchers;
+package Bazhanau.Network;
 
-import Bazhanau.ICatcher;
-import Bazhanau.Task3.Messages.MessageModel;
+import Bazhanau.Logging.ICatcher;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;

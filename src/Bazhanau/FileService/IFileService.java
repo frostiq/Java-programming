@@ -1,4 +1,4 @@
-package Bazhanau;
+package Bazhanau.FileService;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package Bazhanau.Task1.Listeners;
 
-import Bazhanau.FileMainWindow;
+import Bazhanau.FileWindow.FileMainWindow;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;

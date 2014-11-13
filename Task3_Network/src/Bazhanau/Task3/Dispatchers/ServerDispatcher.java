@@ -1,6 +1,7 @@
 package Bazhanau.Task3.Dispatchers;
 
-import Bazhanau.Task3.Messages.MessageModel;
+import Bazhanau.Network.AbstractDispatcher;
+import Bazhanau.Network.MessageModel;
 import Bazhanau.Task3.Server.ServerBeacon;
 
 import java.io.File;

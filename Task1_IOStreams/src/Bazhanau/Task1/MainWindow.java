@@ -1,6 +1,6 @@
 package Bazhanau.Task1;
 
-import Bazhanau.FileMainWindow;
+import Bazhanau.FileWindow.FileMainWindow;
 import Bazhanau.Task1.Listeners.*;
 
 import javax.swing.*;
@@ -33,6 +33,10 @@ public class MainWindow extends FileMainWindow {
         this.encodeButton.addActionListener(new EncodeButtonListener(this));
     }
 
+    public static void main(String[] args) {
+        new MainWindow();
+    }
+
     public void enableEncoding(boolean b) {
         this.encodeButton.setEnabled(b);
     }
@@ -52,9 +56,5 @@ public class MainWindow extends FileMainWindow {
     @Override
     public boolean hasNoInfoToSave() {
         return this.textArea.getText().isEmpty();
-    }
-
-    public static void main(String[] args) {
-        new MainWindow();
     }
 }
