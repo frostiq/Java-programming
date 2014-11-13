@@ -7,11 +7,11 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.ArrayList;
 
 public class ServerBeacon extends Thread {
+    private final ArrayList<ServerDispatcher> dispatchers = new ArrayList<>();
     private ServerSocket serverSocket;
-    private ConcurrentSkipListSet<ServerDispatcher> dispatchers = new ConcurrentSkipListSet<>();
     private IServerWindow wnd;
 
     public ServerBeacon(IServerWindow wnd) {
@@ -34,7 +34,7 @@ public class ServerBeacon extends Thread {
                 wnd.printToLog(socket.getInetAddress().getHostAddress() + " connected");
                 ServerDispatcher dispatcher = new ServerDispatcher(socket, this);
                 dispatcher.start();
-                synchronized (this) {
+                synchronized (dispatchers) {
                     dispatchers.add(dispatcher);
                 }
             }
@@ -48,20 +48,23 @@ public class ServerBeacon extends Thread {
     @Override
     public void interrupt() {
         if (!isInterrupted()) {
-            for (ServerDispatcher dispatcher : dispatchers) {
-                dispatcher.destroyDispatcher();
-            }
-            try {
-                serverSocket.setReuseAddress(true);
-                if (!serverSocket.isClosed()) {
-                    serverSocket.close();
+            synchronized (dispatchers) {
+                int size = dispatchers.size();
+                for (int i = size - 1; i >= 0; i--) {       //for the proper removal
+                    dispatchers.get(i).destroyDispatcher();
                 }
-                wnd.printToLog("Server is stopped");
-            } catch (IOException e) {
-                wnd.getCatcher().catchException(e);
-            } finally {
-                super.interrupt();
             }
+        }
+        try {
+            serverSocket.setReuseAddress(true);
+            if (!serverSocket.isClosed()) {
+                serverSocket.close();
+            }
+            wnd.printToLog("Server is stopped");
+        } catch (IOException e) {
+            wnd.getCatcher().catchException(e);
+        } finally {
+            super.interrupt();
         }
     }
 

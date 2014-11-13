@@ -47,7 +47,8 @@ public class FileTreeNode implements TreeNode {
             children = new ArrayList<>();
             if (isDirectory(currentPath)) {
                 List<String> names = this.dispatcher.sendDirRequest(currentPath);
-                children.addAll(names.stream()
+                children.addAll(names
+                        .stream()
                         .map(name -> new FileTreeNode(dispatcher, currentPath + "\\" + name, this))
                         .collect(Collectors.toList()));
             }

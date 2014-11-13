@@ -20,7 +20,7 @@ import java.io.IOException;
 public class ClientWindow extends JFrame implements IClientWindow {
     private ICatcher catcher = new LogCatcher(this);
 
-    private JTextField ipField = new JTextField("192.168.1.104:");
+    private JTextField ipField = new JTextField("localhost:");
 
     private JButton connectButton = new JButton("Connect to server");
 
