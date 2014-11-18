@@ -2,7 +2,6 @@ package Bazhanau.Task3.Client;
 
 import Bazhanau.Logging.ICatcher;
 import Bazhanau.Logging.ILogWindow;
-import Bazhanau.Task3.Dispatchers.ClientDispatcher;
 
 import javax.swing.*;
 import javax.swing.tree.TreeModel;

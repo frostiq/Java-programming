@@ -4,7 +4,6 @@ import Bazhanau.Logging.ICatcher;
 import Bazhanau.Logging.LogCatcher;
 import Bazhanau.Task3.Client.Commands.Command;
 import Bazhanau.Task3.Client.Commands.ConnectToServerCommand;
-import Bazhanau.Task3.Dispatchers.ClientDispatcher;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;

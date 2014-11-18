@@ -1,9 +1,8 @@
-package Bazhanau.Task3.Dispatchers;
+package Bazhanau.Task3.Client;
 
 import Bazhanau.Logging.ICatcher;
 import Bazhanau.Network.AbstractDispatcher;
 import Bazhanau.Network.MessageModel;
-import Bazhanau.Task3.Client.IClientWindow;
 
 import java.io.IOException;
 import java.net.Socket;
