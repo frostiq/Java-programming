@@ -1,5 +1,7 @@
 package Bazhanau.Task4;
 
+import Bazhanau.Sound;
+
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -8,7 +10,7 @@ import java.util.Locale;
 public class Clock extends JFrame implements Runnable, ITimerListener {
     Thread timer;                // The thread that displays clock
     SimpleDateFormat dateFormat = new SimpleDateFormat("H:mm", Locale.getDefault());
-    private Timer eventTimer = new Timer(1000 * 10);
+    private Timer eventTimer = new Timer(1000 * 15);
     private ClockPanel clockPanel = new ClockPanel();
 
     public Clock() throws HeadlessException {
@@ -43,7 +45,7 @@ public class Clock extends JFrame implements Runnable, ITimerListener {
 
     @Override
     public void timeElapsed(TimerEvent event) {
-
+        Sound.playSound("Clock.wav");
         JOptionPane.showMessageDialog(this, dateFormat.format(event.getCurrentTime()));
     }
 }
