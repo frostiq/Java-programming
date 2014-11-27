@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/Task2_IOStreams_and_algorithms/Task2_IOStreams_and_algorithms.iml" filepath="$PROJECT_DIR$/Task2_IOStreams_and_algorithms/Task2_IOStreams_and_algorithms.iml" />
       <module fileurl="file://$PROJECT_DIR$/Task3_Network/Task3_Network.iml" filepath="$PROJECT_DIR$/Task3_Network/Task3_Network.iml" />
       <module fileurl="file://$PROJECT_DIR$/Task4_Events/Task4_Events.iml" filepath="$PROJECT_DIR$/Task4_Events/Task4_Events.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Task5_Reflection&amp;Internalization/Task5_Reflection&amp;Internalization.iml" filepath="$PROJECT_DIR$/Task5_Reflection&amp;Internalization/Task5_Reflection&amp;Internalization.iml" />
     </modules>
   </component>
 </project>
