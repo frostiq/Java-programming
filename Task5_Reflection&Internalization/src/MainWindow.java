@@ -14,7 +14,6 @@ import java.util.Properties;
 TODO:
     -labeled borders
     -appropriate size
-    -i18n
  */
 
 public class MainWindow extends JFrame implements InvokerCaller {
