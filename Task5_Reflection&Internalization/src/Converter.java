@@ -5,7 +5,7 @@ public class Converter {
         } else if (paramClass.equals(String.class)) {
             return s;
         } else {
-            throw new ClassCastException("unsupported type");
+            throw new ClassCastException("Unsupported type");
         }
     }
 }

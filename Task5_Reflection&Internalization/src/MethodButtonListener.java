@@ -22,7 +22,7 @@ public class MethodButtonListener implements ActionListener {
         ArrayList<JTextField> textParams = new ArrayList<>();
         JTextField thisTextParam = null;
         if (!Modifier.isStatic(method.getModifiers())) {
-            panel.add(new JLabel(method.getClass().getName() + ".this"));
+            panel.add(new JLabel(method.getDeclaringClass().getName() + ".this"));
             thisTextParam = new JTextField();
             panel.add(thisTextParam);
         }
