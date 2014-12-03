@@ -12,8 +12,8 @@ import java.util.Properties;
 
 /*
 TODO:
-    -labeled borders
     -appropriate size
+    -i18n experiments
  */
 
 public class MainWindow extends JFrame implements InvokerCaller {
@@ -30,22 +30,7 @@ public class MainWindow extends JFrame implements InvokerCaller {
 
     public MainWindow() throws HeadlessException {
         initMethods();
-
-        setJMenuBar(menuBar);
-        menuBar.add(menu);
-        languageMenuItems.add(new JMenuItem("en"));
-        languageMenuItems.add(new JMenuItem("be"));
-        for (JMenuItem jMenuItem : languageMenuItems) {
-            jMenuItem.addActionListener(e -> {
-                ResourceManager.INSTANCE.changeLocale(new Locale(jMenuItem.getText()));
-                JOptionPane.showMessageDialog(
-                        MainWindow.this,
-                        ResourceManager.INSTANCE.getString("reload.app"),
-                        "",
-                        JOptionPane.WARNING_MESSAGE);
-            });
-            menu.add(jMenuItem);
-        }
+        initLanguageMenu();
 
         setLayout(new BorderLayout());
         radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.Y_AXIS));
@@ -87,14 +72,22 @@ public class MainWindow extends JFrame implements InvokerCaller {
         new MainWindow();
     }
 
-    @Override
-    public Invoker getInvoker() {
-        return invoker;
-    }
-
-    @Override
-    public void setInvoker(Invoker invoker) {
-        this.invoker = invoker;
+    private void initLanguageMenu() {
+        setJMenuBar(menuBar);
+        menuBar.add(menu);
+        languageMenuItems.add(new JMenuItem("en"));
+        languageMenuItems.add(new JMenuItem("be"));
+        for (JMenuItem jMenuItem : languageMenuItems) {
+            jMenuItem.addActionListener(e -> {
+                ResourceManager.INSTANCE.changeLocale(new Locale(jMenuItem.getText()));
+                JOptionPane.showMessageDialog(
+                        MainWindow.this,
+                        ResourceManager.INSTANCE.getString("reload.app"),
+                        "",
+                        JOptionPane.WARNING_MESSAGE);
+            });
+            menu.add(jMenuItem);
+        }
     }
 
     private void initMethods() {
@@ -105,5 +98,15 @@ public class MainWindow extends JFrame implements InvokerCaller {
         } catch (Exception e) {
             catcher.catchException(e);
         }
+    }
+
+    @Override
+    public Invoker getInvoker() {
+        return invoker;
+    }
+
+    @Override
+    public void setInvoker(Invoker invoker) {
+        this.invoker = invoker;
     }
 }

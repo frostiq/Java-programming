@@ -22,14 +22,14 @@ public class MethodButtonListener implements ActionListener {
         ArrayList<JTextField> textParams = new ArrayList<>();
         JTextField thisTextParam = null;
         if (!Modifier.isStatic(method.getModifiers())) {
-            panel.add(new JLabel(method.getDeclaringClass().getName() + ".this"));
             thisTextParam = new JTextField();
+            thisTextParam.setBorder(BorderFactory.createTitledBorder(method.getDeclaringClass().getName() + ".this"));
             panel.add(thisTextParam);
         }
 
         for (Class param : method.getParameterTypes()) {
-            panel.add(new JLabel(param.getName()));
             JTextField textField = new JTextField();
+            textField.setBorder(BorderFactory.createTitledBorder(param.getName()));
             textParams.add(textField);
             panel.add(textField);
         }
