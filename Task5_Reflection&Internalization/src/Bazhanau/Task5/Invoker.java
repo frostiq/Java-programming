@@ -1,3 +1,5 @@
+package Bazhanau.Task5;
+
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,11 +22,11 @@ public class Invoker {
         Class[] paramsClass = method.getParameterTypes();
         Object[] params = new Object[method.getParameterCount()];
         if (!Modifier.isStatic(method.getModifiers())) {
-            thisParam = Converter.convert(thisParamField.getText(), method.getDeclaringClass());
+            thisParam = Parser.parse(thisParamField.getText(), method.getDeclaringClass());
         }
 
         for (int i = 0; i < paramFields.size(); i++) {
-            params[i] = Converter.convert(paramFields.get(i).getText(), paramsClass[i]);
+            params[i] = Parser.parse(paramFields.get(i).getText(), paramsClass[i]);
         }
 
         return method.invoke(thisParam, params);

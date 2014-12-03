@@ -1,3 +1,5 @@
+package Bazhanau.Task5;
+
 import Bazhanau.Logging.ICatcher;
 import Bazhanau.Logging.MessageBoxCatcher;
 
@@ -10,19 +12,15 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Properties;
 
-/*
-TODO:
-    -appropriate size
-    -i18n experiments
- */
-
 public class MainWindow extends JFrame implements InvokerCaller {
     private ResourceManager resourceManager = ResourceManager.INSTANCE;
     private ICatcher catcher = new MessageBoxCatcher(this);
     private Collection<Method> methods;
     private JPanel radioPanel = new JPanel();
     private JPanel methodPanel = new JPanel();
+    private JPanel controlPanel = new JPanel();
     private JButton callButton = new JButton(resourceManager.getString("call"));
+    private Dimension callButtonSize = new Dimension(100, 30);
     private Invoker invoker = null;
     private JMenuBar menuBar = new JMenuBar();
     private JMenu menu = new JMenu(ResourceManager.INSTANCE.getString("language"));
@@ -34,10 +32,14 @@ public class MainWindow extends JFrame implements InvokerCaller {
 
         setLayout(new BorderLayout());
         radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.Y_AXIS));
-        methodPanel.setLayout(new BoxLayout(methodPanel, BoxLayout.X_AXIS));
+        methodPanel.setLayout(new FlowLayout());
+        controlPanel.setLayout(new FlowLayout());
+        controlPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         add(radioPanel, BorderLayout.WEST);
         add(methodPanel, BorderLayout.CENTER);
-        add(callButton, BorderLayout.NORTH);
+        add(controlPanel, BorderLayout.NORTH);
+        callButton.setPreferredSize(callButtonSize);
+        controlPanel.add(callButton);
         ButtonGroup buttonGroup = new ButtonGroup();
         for (Method method : methods) {
             JRadioButton button = new JRadioButton(method.getName());
@@ -62,7 +64,7 @@ public class MainWindow extends JFrame implements InvokerCaller {
             }
         });
 
-        setSize(640, 480);
+        setSize(500, 200);
         setLocationByPlatform(true);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

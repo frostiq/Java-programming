@@ -1,3 +1,5 @@
+package Bazhanau.Task5;
+
 import Bazhanau.Logging.MessageBoxCatcher;
 
 import java.io.FileInputStream;

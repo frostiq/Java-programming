@@ -1,3 +1,5 @@
+package Bazhanau.Task5;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,13 +24,13 @@ public class MethodButtonListener implements ActionListener {
         ArrayList<JTextField> textParams = new ArrayList<>();
         JTextField thisTextParam = null;
         if (!Modifier.isStatic(method.getModifiers())) {
-            thisTextParam = new JTextField();
+            thisTextParam = new JTextField(15);
             thisTextParam.setBorder(BorderFactory.createTitledBorder(method.getDeclaringClass().getName() + ".this"));
             panel.add(thisTextParam);
         }
 
         for (Class param : method.getParameterTypes()) {
-            JTextField textField = new JTextField();
+            JTextField textField = new JTextField(15);
             textField.setBorder(BorderFactory.createTitledBorder(param.getName()));
             textParams.add(textField);
             panel.add(textField);

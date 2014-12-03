@@ -1,3 +1,5 @@
+package Bazhanau.Task5;
+
 import java.lang.reflect.Method;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;

@@ -25,8 +25,8 @@ public class MainWindow extends FileMainWindow {
         this.encodeButton.setEnabled(false);
         add(new JScrollPane(this.textArea), "Center");
 
-        super.openMenuItem.addActionListener(new OpenButtonListener(this));
-        super.saveMenuItem.addActionListener(new SaveButtonListener(this));
+        openMenuItem.addActionListener(new OpenButtonListener(this));
+        saveMenuItem.addActionListener(new SaveButtonListener(this));
         this.keyTextField.getDocument().addDocumentListener(new KeyTextFieldListener(this));
         this.textArea.getDocument().addDocumentListener(new TextAreaListener(this));
         addWindowListener(new MainWindowAdapter(this));
