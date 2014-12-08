@@ -2,13 +2,12 @@ package Bazhanau.Task2.Listeners;
 
 import Bazhanau.FileService.FileService;
 import Bazhanau.FileService.IFileService;
-import Bazhanau.FileWindow.AbstractSaveButtonListener;
 import Bazhanau.Task2.MainWindow;
 
 import java.io.File;
 import java.io.IOException;
 
-public class SaveButtonListener extends AbstractSaveButtonListener {
+public class SaveButtonListener extends Bazhanau.FileWindow.SaveButtonListener {
     private IFileService fileService = new FileService();
     private MainWindow _this;
 

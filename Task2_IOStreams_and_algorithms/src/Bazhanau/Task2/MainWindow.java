@@ -1,7 +1,9 @@
 package Bazhanau.Task2;
 
 import Bazhanau.FileWindow.FileMainWindow;
-import Bazhanau.Task2.Listeners.*;
+import Bazhanau.Task2.Listeners.AddButtonListener;
+import Bazhanau.Task2.Listeners.DeleteButtonListener;
+import Bazhanau.Task2.Listeners.StudentsTableModelListener;
 import Bazhanau.Task2.Models.GroupsTableModel;
 import Bazhanau.Task2.Models.StudentModel;
 import Bazhanau.Task2.Models.StudentsTableModel;
@@ -44,9 +46,7 @@ public class MainWindow extends FileMainWindow {
         this.controlPanel.setLayout(new FlowLayout());
         this.studentsTableModelListener.setFileMainWindow(this);
         this.studentsTableModelListener.setGroupsTableModel(groupsTableModel);
-        this.openMenuItem.addActionListener(new OpenButtonListener(this));
-        this.saveMenuItem.addActionListener(new SaveButtonListener(this));
-        addWindowListener(new MainWindowAdapter(this));
+
         this.addButton.addActionListener(new AddButtonListener(this));
         this.deleteButton.addActionListener(new DeleteButtonListener(this));
         this.addComponentListener(new ComponentAdapter() {

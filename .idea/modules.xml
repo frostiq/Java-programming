@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/Task3_Network/Task3_Network.iml" filepath="$PROJECT_DIR$/Task3_Network/Task3_Network.iml" />
       <module fileurl="file://$PROJECT_DIR$/Task4_Events/Task4_Events.iml" filepath="$PROJECT_DIR$/Task4_Events/Task4_Events.iml" />
       <module fileurl="file://$PROJECT_DIR$/Task5_Reflection&amp;Internalization/Task5_Reflection&amp;Internalization.iml" filepath="$PROJECT_DIR$/Task5_Reflection&amp;Internalization/Task5_Reflection&amp;Internalization.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Task6_RegExp/Task6_RegExp.iml" filepath="$PROJECT_DIR$/Task6_RegExp/Task6_RegExp.iml" />
     </modules>
   </component>
 </project>

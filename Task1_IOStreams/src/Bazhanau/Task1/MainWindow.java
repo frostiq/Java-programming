@@ -1,7 +1,10 @@
 package Bazhanau.Task1;
 
 import Bazhanau.FileWindow.FileMainWindow;
-import Bazhanau.Task1.Listeners.*;
+import Bazhanau.FileWindow.IFileHandler;
+import Bazhanau.Task1.Listeners.EncodeButtonListener;
+import Bazhanau.Task1.Listeners.KeyTextFieldListener;
+import Bazhanau.Task1.Listeners.TextAreaListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,11 +28,8 @@ public class MainWindow extends FileMainWindow {
         this.encodeButton.setEnabled(false);
         add(new JScrollPane(this.textArea), "Center");
 
-        openMenuItem.addActionListener(new OpenButtonListener(this));
-        saveMenuItem.addActionListener(new SaveButtonListener(this));
         this.keyTextField.getDocument().addDocumentListener(new KeyTextFieldListener(this));
         this.textArea.getDocument().addDocumentListener(new TextAreaListener(this));
-        addWindowListener(new MainWindowAdapter(this));
         this.encodeButton.addActionListener(new EncodeButtonListener(this));
     }
 
@@ -56,5 +56,10 @@ public class MainWindow extends FileMainWindow {
     @Override
     public boolean hasNoInfoToSave() {
         return this.textArea.getText().isEmpty();
+    }
+
+    @Override
+    public IFileHandler getFileHandler() {
+        return new FileHandler(this);
     }
 }
