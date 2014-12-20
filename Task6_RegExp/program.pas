@@ -14,5 +14,5 @@ Program comments;
 	    Write (a*b, ' ');
 	  end;
 	 все что внутри не исполняется}
-	WriteLn(' {  } ');
+	WriteLn('        {fffff  }          ');
   End.

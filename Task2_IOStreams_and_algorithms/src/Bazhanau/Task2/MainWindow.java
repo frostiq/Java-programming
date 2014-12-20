@@ -21,13 +21,13 @@ import java.util.ArrayList;
 public class MainWindow extends FileMainWindow {
     protected final String[] studentColumnNames = new String[]
             {"Прозвішча", "Група", "Мат. аналіз", "Геаметрыя і аглебра", "Праграмаванне", "Сярэдні бал"};
-    protected final StudentsTableModelListener studentsTableModelListener = new StudentsTableModelListener();
-    private StudentsTableModel studentsTableModel = new StudentsTableModel(studentColumnNames, studentsTableModelListener);
-    protected JTable studentsTable = new JTable(studentsTableModel);
+    private final StudentsTableModelListener studentsTableModelListener = new StudentsTableModelListener();
+    protected StudentsTableModel studentsTableModel = new StudentsTableModel(studentColumnNames, studentsTableModelListener);
+    private JTable studentsTable = new JTable(studentsTableModel);
     private JPanel controlPanel = new JPanel();
     private String[] groupsColumnNames = new String[]{"Група", "Сярэдні бал"};
     private GroupsTableModel groupsTableModel = new GroupsTableModel(groupsColumnNames);
-    protected JTable groupsTable = new JTable(groupsTableModel);
+    private JTable groupsTable = new JTable(groupsTableModel);
     private JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
     private JButton addButton = new JButton("Дадаць студэнта");

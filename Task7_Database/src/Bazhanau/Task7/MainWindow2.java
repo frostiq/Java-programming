@@ -3,7 +3,6 @@ package Bazhanau.Task7;
 import Bazhanau.Task2.MainWindow;
 import Bazhanau.Task2.Models.StudentModel;
 
-import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
@@ -14,16 +13,10 @@ import java.util.ArrayList;
 
 public class MainWindow2 extends MainWindow {
     private Connection connection = new MSSQLManager().getConnection();
-    private JMenu menu = new JMenu("База дадзеных");
-    private JMenuItem readMenuItem = new JMenuItem("Атрымаць дадзеныя з БД");
-    private JMenuItem saveMenuItem = new JMenuItem("Захаваць дадзеныя ў БД");
 
     public MainWindow2() {
-        menuBar.add(menu);
-        menu.add(readMenuItem);
-        menu.add(saveMenuItem);
-        readMenuItem.addActionListener(e -> readData());
-        saveMenuItem.addActionListener(e -> saveData());
+
+        studentsTableModel.addTableModelListener(new DatabaseTableListener());
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -48,7 +41,7 @@ public class MainWindow2 extends MainWindow {
             ResultSet res = statement.executeQuery();
 
             // data of the table
-            ArrayList<StudentModel> data = new ArrayList<>();
+            ArrayList<StudentModel> data = new ArrayList<StudentModel>();
 
             while (res.next()) {
                 StudentModel temp = new StudentModel();
