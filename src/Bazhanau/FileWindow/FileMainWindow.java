@@ -8,12 +8,12 @@ import java.io.File;
 
 public abstract class FileMainWindow extends JFrame {
     protected JMenu menu = new JMenu("Файл");
+    protected JMenuBar menuBar = new JMenuBar();
     protected ICatcher catcher = new MessageBoxCatcher(this);
     private JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
     private String saveQuestion = "Захаваць файл перад выхадам?";
     private JMenuItem openMenuItem = new JMenuItem("Адчыніць файл...");
     private JMenuItem saveMenuItem = new JMenuItem("Захаваць файл...");
-    private JMenuBar menuBar = new JMenuBar();
     private boolean isSaved = true;
 
     public FileMainWindow() {
@@ -60,7 +60,7 @@ public abstract class FileMainWindow extends JFrame {
         this.isSaved = isSaved;
     }
 
-    public abstract boolean hasNoInfoToSave();
+    public abstract boolean hasInfoToSave();
 
     public abstract IFileHandler getFileHandler();
 }

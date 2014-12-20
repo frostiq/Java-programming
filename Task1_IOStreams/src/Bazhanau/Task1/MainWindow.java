@@ -1,13 +1,16 @@
 package Bazhanau.Task1;
 
+import Bazhanau.FileService.FileService;
+import Bazhanau.FileWindow.DocumentChangesListener;
 import Bazhanau.FileWindow.FileMainWindow;
 import Bazhanau.FileWindow.IFileHandler;
 import Bazhanau.Task1.Listeners.EncodeButtonListener;
 import Bazhanau.Task1.Listeners.KeyTextFieldListener;
-import Bazhanau.Task1.Listeners.TextAreaListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class MainWindow extends FileMainWindow {
     private JPanel controlPanel = new JPanel();
@@ -29,7 +32,7 @@ public class MainWindow extends FileMainWindow {
         add(new JScrollPane(this.textArea), "Center");
 
         this.keyTextField.getDocument().addDocumentListener(new KeyTextFieldListener(this));
-        this.textArea.getDocument().addDocumentListener(new TextAreaListener(this));
+        this.textArea.getDocument().addDocumentListener(new DocumentChangesListener(this));
         this.encodeButton.addActionListener(new EncodeButtonListener(this));
     }
 
@@ -54,12 +57,34 @@ public class MainWindow extends FileMainWindow {
     }
 
     @Override
-    public boolean hasNoInfoToSave() {
-        return this.textArea.getText().isEmpty();
+    public boolean hasInfoToSave() {
+        return !this.textArea.getText().isEmpty();
     }
 
     @Override
     public IFileHandler getFileHandler() {
-        return new FileHandler(this);
+        return new FileHandler();
+    }
+
+    private class FileHandler implements IFileHandler {
+        private FileService fileService = new FileService();
+
+        @Override
+        public void open(File file) {
+            try {
+                setFileText(fileService.readText(file));
+            } catch (IOException e) {
+                catchException(e);
+            }
+        }
+
+        @Override
+        public void save(File file) {
+            try {
+                fileService.writeText(file, getFileText());
+            } catch (IOException e) {
+                catchException(e);
+            }
+        }
     }
 }

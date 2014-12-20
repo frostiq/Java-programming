@@ -1,15 +1,13 @@
-package Bazhanau.Task1.Listeners;
-
-import Bazhanau.FileWindow.FileMainWindow;
+package Bazhanau.FileWindow;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class TextAreaListener
+public class DocumentChangesListener
         implements DocumentListener {
     private FileMainWindow _this;
 
-    public TextAreaListener(FileMainWindow _this) {
+    public DocumentChangesListener(FileMainWindow _this) {
         this._this = _this;
     }
 

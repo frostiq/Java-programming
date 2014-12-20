@@ -12,7 +12,7 @@ class MainWindowAdapter extends WindowAdapter {
     }
 
     public void windowClosing(WindowEvent e) {
-        if (wnd.hasNoInfoToSave() || wnd.isSaved()) {
+        if (!wnd.hasInfoToSave() || wnd.isSaved()) {
             System.exit(0);
         }
         int res = JOptionPane.showConfirmDialog(wnd, wnd.getSaveQuestion(), "", JOptionPane.YES_NO_CANCEL_OPTION);
@@ -21,8 +21,8 @@ class MainWindowAdapter extends WindowAdapter {
         }
         if (res == JOptionPane.YES_OPTION) {
             if (wnd.showSaveDialog() == JFileChooser.APPROVE_OPTION) {
-                wnd.setIsSaved(true);
                 wnd.getFileHandler().save(wnd.getLastSelectedFile());
+                wnd.setIsSaved(true);
             } else {
                 return;
             }
