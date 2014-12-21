@@ -4,16 +4,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class StudentModel implements Comparable<StudentModel>, Serializable {
-    private String surname;
     public static final int DEFAULT_GROUP = -1;
     private int group = DEFAULT_GROUP;
     private static final int marksCount = 3;
     private ArrayList<Integer> marks = new ArrayList<>(marksCount);
+    private String surname;
 
     public StudentModel() {
         for (int i = 0; i < marksCount; i++) {
             marks.add(-1);
         }
+    }
+
+    public static int getMarksCount() {
+        return marksCount;
     }
 
     public String getSurname() {
@@ -30,10 +34,6 @@ public class StudentModel implements Comparable<StudentModel>, Serializable {
 
     public void setGroup(int group) {
         this.group = group;
-    }
-
-    public static int getMarksCount() {
-        return marksCount;
     }
 
     public ArrayList<Integer> getMarks() {
@@ -54,5 +54,10 @@ public class StudentModel implements Comparable<StudentModel>, Serializable {
             return this.getSurname().compareTo(o.getSurname());
         else
             return 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getSurname().equals(((StudentModel) obj).getSurname());
     }
 }
