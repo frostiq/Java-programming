@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DeleteCommentsListener implements ActionListener {
-    private final String stringRegex1 = "\'(([^\'\\\\]|\\\\.)*?)\\{(([^'\\\\]|\\\\.)*?)\\}(([^'\\\\]|\\\\.)*?)\'";
-    private final String stringRegex2 = "\'(([^\'\\\\]|\\\\.)*?)<(([^'\\\\]|\\\\.)*?)>(([^'\\\\]|\\\\.)*?)\'";
+    private final String stringRegex1 = "(?s)\'(([^\'\\\\]|\\\\.)*?)\\{(([^'\\\\]|\\\\.)*?)\\}(([^'\\\\]|\\\\.)*?)\'";
+    private final String stringRegex2 = "(?s)\'(([^\'\\\\]|\\\\.)*?)<(([^'\\\\]|\\\\.)*?)>(([^'\\\\]|\\\\.)*?)\'";
     private final String commentsRegex = "(?s)(\\{.*?\\})|(//.*?\r\n)";
     private MainWindow wnd;
 
