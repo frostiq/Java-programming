@@ -8,6 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Java-programming" />
-    <orderEntry type="module" module-name="Task2_IOStreams_and_algorithms" />
+    <orderEntry type="module" module-name="Task7_Database" />
   </component>
 </module>

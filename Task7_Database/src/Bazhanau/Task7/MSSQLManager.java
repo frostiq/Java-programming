@@ -6,7 +6,7 @@ public class MSSQLManager {
     private final String url = "jdbc:sqlserver://";
     private final String serverName = "127.0.0.1\\BAZHANAU";
     private final String portNumber = "1433";
-    private final String databaseName = "JavaTask7";
+    private String databaseName = "JavaTask7";
     private final String userName = "program";
     private final String password = "qwerty";
     // Сообщает драйверу о необходимости использовать сервером побочного курсора,
@@ -17,6 +17,10 @@ public class MSSQLManager {
 
     // Конструктор
     public MSSQLManager() {
+    }
+
+    public MSSQLManager(String databaseName) {
+        this.databaseName = databaseName;
     }
 
     private String getConnectionUrl() {
