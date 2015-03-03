@@ -11,11 +11,15 @@ public interface IRmiServer extends Remote, AutoCloseable {
 
     ArrayList<Item> getItem(String name);
 
+    ArrayList<Integer> getItemIds();
+
+    boolean createNewItem();
+
     boolean createItem(Item item);
 
     boolean updateItem(Item item);
 
-    boolean removeItem(Item item);
+    boolean removeItem(int id);
 
     Storage getStorage(int id);
 }

@@ -16,6 +16,7 @@ public class SqlAdapter extends RmiServer{
     public static final String DELETE_ITEM = "DELETE FROM Items WHERE id = ?";
     public static final String SELECT_ITEM = "SELECT * FROM Items WHERE id = ?";
     public static final String SELECT_ITEM_BY_NAME = "SELECT * FROM Items WHERE name = ?";
+    public static final String SELECT_ITEM_IDS = "SELECT id FROM Items";
     public static final String INSERT_STORAGE = "INSERT INTO Storages(id, name, location) VALUES(?,?,?)";
     public static final String UPDATE_STORAGE = "UPDATE Storages SET name = ?, location = ? WHERE id = ?";
     public static final String DELETE_STORAGE = "DELETE FROM Storages WHERE id = ?";
@@ -31,6 +32,7 @@ public class SqlAdapter extends RmiServer{
         Item item = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_ITEM);
+            statement.setInt(1, id);
             ResultSet res = statement.executeQuery();
             if (res.next()) {
                 item = buildItem(res);
@@ -43,10 +45,28 @@ public class SqlAdapter extends RmiServer{
     }
 
     @Override
+    public ArrayList<Integer> getItemIds() {
+        ArrayList<Integer> items = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(SELECT_ITEM_IDS);
+            ResultSet res = statement.executeQuery();
+
+            while (res.next()){
+                int item = res.getInt("Id");
+                items.add(item);
+            }
+        } catch (Exception e) {
+            catcher.catchException(e);
+        }
+        return items;
+    }
+
+    @Override
     public ArrayList<Item> getItem(String name) {
         ArrayList<Item> items = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_ITEM_BY_NAME);
+            statement.setString(1, name);
             ResultSet res = statement.executeQuery();
 
             while (res.next()){
@@ -57,6 +77,11 @@ public class SqlAdapter extends RmiServer{
             catcher.catchException(e);
         }
         return items;
+    }
+
+    @Override
+    public boolean createNewItem(){
+        return createItem(new Item());
     }
 
     @Override
@@ -93,10 +118,10 @@ public class SqlAdapter extends RmiServer{
     }
 
     @Override
-    public boolean removeItem(Item item) {
+    public boolean removeItem(int id) {
         try {
             PreparedStatement res = connection.prepareStatement(DELETE_ITEM);
-            res.setInt(1, item.getId());
+            res.setInt(1, id);
             res.executeUpdate();
         } catch (Exception e) {
             catcher.catchException(e);
@@ -110,6 +135,7 @@ public class SqlAdapter extends RmiServer{
         Storage storage = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_STORAGE);
+            statement.setInt(1, id);
             ResultSet res = statement.executeQuery();
             if (res.next()) {
                 storage = buildStorage(res);

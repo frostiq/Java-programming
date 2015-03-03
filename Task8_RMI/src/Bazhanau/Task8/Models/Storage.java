@@ -7,6 +7,13 @@ public class Storage {
 
     private String location;
 
+    public Storage() {
+    }
+
+    public Storage(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
