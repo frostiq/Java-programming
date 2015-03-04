@@ -1,6 +1,8 @@
 package Bazhanau.Task8.Models;
 
-public class Storage {
+import java.io.Serializable;
+
+public class Storage implements Serializable{
     private int id;
 
     private String name;

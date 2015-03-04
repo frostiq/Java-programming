@@ -4,10 +4,7 @@ import Bazhanau.Task7.MSSQLManager;
 import Bazhanau.Task8.Models.Item;
 import Bazhanau.Task8.Models.Storage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class SqlAdapter extends RmiServer{
@@ -27,6 +24,10 @@ public class SqlAdapter extends RmiServer{
         connection = new MSSQLManager("JavaTask8").getConnection();
     }
 
+    public static void main(String[] args) {
+        new SqlAdapter();
+    }
+
     @Override
     public Item getItem(int id) {
         Item item = null;
@@ -42,23 +43,6 @@ public class SqlAdapter extends RmiServer{
             catcher.catchException(e);
         }
         return item;
-    }
-
-    @Override
-    public ArrayList<Integer> getItemIds() {
-        ArrayList<Integer> items = new ArrayList<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_ITEM_IDS);
-            ResultSet res = statement.executeQuery();
-
-            while (res.next()){
-                int item = res.getInt("Id");
-                items.add(item);
-            }
-        } catch (Exception e) {
-            catcher.catchException(e);
-        }
-        return items;
     }
 
     @Override
@@ -80,8 +64,29 @@ public class SqlAdapter extends RmiServer{
     }
 
     @Override
+    public ArrayList<Integer> getItemIds() {
+        ArrayList<Integer> items = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(SELECT_ITEM_IDS);
+            ResultSet res = statement.executeQuery();
+
+            while (res.next()){
+                int item = res.getInt("Id");
+                items.add(item);
+            }
+        } catch (Exception e) {
+            catcher.catchException(e);
+        }
+        return items;
+    }
+
+    @Override
     public boolean createNewItem(){
-        return createItem(new Item());
+        Item item = new Item();
+        item.setName("new item");
+        item.setPrice(0);
+        item.setQuantity(0);
+        return createItem(item);
     }
 
     @Override
@@ -91,7 +96,10 @@ public class SqlAdapter extends RmiServer{
             res.setString(1, item.getName());
             res.setInt(2, item.getPrice());
             res.setInt(3, item.getQuantity());
-            res.setInt(4, item.getStorage().getId());
+            if(item.getStorage() != null)
+                res.setInt(4, item.getStorage().getId());
+            else
+                res.setNull(4, Types.INTEGER);
             res.executeUpdate();
         } catch (Exception e) {
             catcher.catchException(e);
@@ -107,7 +115,10 @@ public class SqlAdapter extends RmiServer{
             res.setString(1, item.getName());
             res.setInt(2, item.getPrice());
             res.setInt(3, item.getQuantity());
-            res.setInt(4, item.getStorage().getId());
+            if(item.getStorage() != null)
+                res.setInt(4, item.getStorage().getId());
+            else
+                res.setNull(4, Types.INTEGER);
             res.setInt(5, item.getId());
             res.executeUpdate();
         } catch (Exception e) {
@@ -167,9 +178,5 @@ public class SqlAdapter extends RmiServer{
         storage.setName(resultSet.getString("name"));
         storage.setLocation(resultSet.getString("location"));
         return storage;
-    }
-
-    public static void main(String[] args) {
-        new SqlAdapter();
     }
 }

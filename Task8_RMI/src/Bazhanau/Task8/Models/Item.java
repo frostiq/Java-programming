@@ -1,6 +1,8 @@
 package Bazhanau.Task8.Models;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private int id;
 
     private String name;
