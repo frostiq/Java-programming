@@ -116,7 +116,8 @@ public class ItemTableModel extends AbstractTableModel {
 
     public void deleteItem(int row) {
         try {
-            server.removeItem(row);
+            int id = (int) getValueAt(row, Columns.ID.ordinal());
+            server.removeItem(id);
             fireTableDataChanged();
         } catch (RemoteException e) {
             catcher.catchException(e);
