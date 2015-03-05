@@ -33,7 +33,7 @@ public class ClientWindow extends JFrame {
 
     public ClientWindow() {
         try {
-            Registry registry = LocateRegistry.getRegistry(null, 16666);
+            Registry registry = LocateRegistry.getRegistry("172.16.227.251", 16666);
             server = (IRmiServer)registry.lookup("Server");
             itemsTableModel = new ItemTableModel(ItemsColumnNames, server, catcher);
             itemsTable = new JTable(itemsTableModel);
