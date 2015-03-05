@@ -60,9 +60,9 @@ public class ItemTableModel extends AbstractTableModel {
                 case QUANTITY:
                     return item.getQuantity();
                 case STORAGE_ID:
-                    return item.getStorage().getId();
+                    return item.getStorage() != null ? item.getStorage().getId() : "";
                 case STORAGE_NAME:
-                    return item.getStorage().getName();
+                    return item.getStorage() != null ? item.getStorage().getName() : "";
             }
         } catch (Exception e) {
             catcher.catchException(e);
