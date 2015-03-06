@@ -8,6 +8,7 @@ import Bazhanau.Task8.Models.Storage;
 import javax.swing.table.AbstractTableModel;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class ItemTableModel extends AbstractTableModel {
     ArrayList<Integer> ids;
@@ -133,6 +134,17 @@ public class ItemTableModel extends AbstractTableModel {
             catcher.catchException(e);
         }
         return ids;
+    }
+
+    public void findByName(String name) {
+        try {
+            ArrayList<Item> items = server.getItem(name);
+            ids = new ArrayList<>();
+            ids.addAll(items.stream().map(Item::getId).collect(Collectors.toList()));
+            super.fireTableDataChanged();
+        } catch (RemoteException e) {
+            catcher.catchException(e);
+        }
     }
 
     private enum Columns {

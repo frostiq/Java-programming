@@ -28,12 +28,14 @@ public class ClientWindow extends JFrame {
 
     private JButton updateButton = new JButton("Update Table");
 
+    private JButton findButton = new JButton("Find by name");
+
     private ICatcher catcher = new MessageBoxCatcher(this);
 
 
     public ClientWindow() {
         try {
-            Registry registry = LocateRegistry.getRegistry("172.16.227.251", 16666);
+            Registry registry = LocateRegistry.getRegistry("192.168.137.247", 16666);
             server = (IRmiServer)registry.lookup("Server");
             itemsTableModel = new ItemTableModel(ItemsColumnNames, server, catcher);
             itemsTable = new JTable(itemsTableModel);
@@ -48,6 +50,7 @@ public class ClientWindow extends JFrame {
         controlPanel.add(addButton);
         controlPanel.add(deleteButton);
         controlPanel.add(updateButton);
+        controlPanel.add(findButton);
 
         add(new JScrollPane(itemsTable), BorderLayout.CENTER);
 
@@ -56,6 +59,12 @@ public class ClientWindow extends JFrame {
         deleteButton.addActionListener(e -> {
             int row = itemsTable.getSelectedRow();
             itemsTableModel.deleteItem(row);
+        });
+
+        findButton.addActionListener(e -> {
+            String res = JOptionPane.showInputDialog(this, "Search by name");
+            if (res != null)
+                itemsTableModel.findByName(res);
         });
 
         updateButton.addActionListener(e -> itemsTableModel.fireTableDataChanged());
