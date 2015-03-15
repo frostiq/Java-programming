@@ -65,9 +65,9 @@ public class XmlAdapter implements IRmiServer {
                     case XMLStreamConstants.START_ELEMENT:
                         processStartElement(xmlEvent.asStartElement());
                         break;
-                    case XMLStreamConstants.CHARACTERS:
+                    /*case XMLStreamConstants.CHARACTERS:
                         processCharacters(xmlEvent.asCharacters());
-                        break;
+                        break;*/
                     case XMLStreamConstants.END_ELEMENT:
                         processEndElement(xmlEvent.asEndElement());
                         break;
@@ -84,7 +84,8 @@ public class XmlAdapter implements IRmiServer {
     }
 
     public static void main(String[] args) {
-        new XmlAdapter("C:\\Users\\Аляксандр\\IdeaProjects\\Java-programming\\Task9_StAX/data.xml", new ConsoleCatcher());
+        String s = System.getProperty("user.dir");
+        new XmlAdapter("Task9_StAX/data.xml", new ConsoleCatcher());
     }
 
     private void init() {
@@ -109,8 +110,10 @@ public class XmlAdapter implements IRmiServer {
         else if(element.getName().equals(storageName)){
             currentStorage = new Storage();
             currentStorage.setId(Integer.parseInt(element.getAttributeByName(idName).getValue()));
-            currentStorage.setName(element.getAttributeByName(nameName).getValue());
-            currentStorage.setLocation(element.getAttributeByName(locationName).getValue());
+            if (!insideItemElement) {
+                currentStorage.setName(element.getAttributeByName(nameName).getValue());
+                currentStorage.setLocation(element.getAttributeByName(locationName).getValue());
+            }
         }
     }
 
@@ -122,11 +125,12 @@ public class XmlAdapter implements IRmiServer {
 
     private void processEndElement(EndElement element) {
         if(element.getName().equals(itemName)) {
-            int storageId = Integer.parseInt(chars.toString());
+            int storageId = currentStorage.getId();
             currentItem.setStorage(getOrAddStorage(storageId));
             items.put(currentItem.getId(), currentItem);
+            insideItemElement = false;
         }
-        else if(element.getName().equals(storageName)){
+        else if(element.getName().equals(storageName) && !insideItemElement){
             storages.put(currentStorage.getId(), currentStorage);
         }
     }
@@ -142,7 +146,7 @@ public class XmlAdapter implements IRmiServer {
 
         if(res == null){
             res = new Storage(storageId);
-            res = storages.put(storageId, res);
+            storages.put(storageId, res);
         }
         return res;
     }
