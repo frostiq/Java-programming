@@ -1,6 +1,5 @@
 package Bazhanau.Task9;
 
-import Bazhanau.Task8.IRmiServer;
 import Bazhanau.Task8.Models.Item;
 import Bazhanau.Task8.Models.Storage;
 
@@ -13,20 +12,11 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.io.FileInputStream;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-/*TODO:
-    -data write
-    -localization
-    -schema
- */
+public class XmlAdapter implements AutoCloseable {
 
-public class XmlAdapter implements IRmiServer {
     private FileInputStream input;
     private XMLInputFactory factory;
     private XMLEventReader reader;
@@ -80,12 +70,23 @@ public class XmlAdapter implements IRmiServer {
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
-    public static void main(String[] args) {
-        String s = System.getProperty("user.dir");
-        new XmlAdapter("Task9_StAX/data.xml");
+    @Override
+    public void close() throws Exception {
+        input.close();
+    }
+
+    public int getNewId() {
+        return newId;
+    }
+
+    public Map<Integer, Item> getItems() {
+        return items;
+    }
+
+    public Map<Integer, Storage> getStorages() {
+        return storages;
     }
 
     private void init() {
@@ -149,63 +150,5 @@ public class XmlAdapter implements IRmiServer {
             storages.put(storageId, res);
         }
         return res;
-    }
-
-    @Override
-    public Item getItem(int id) throws RemoteException {
-        return items.get(id);
-    }
-
-    @Override
-    public ArrayList<Item> getItem(String name) throws RemoteException {
-        Stream<Item> stream = items.values().stream().filter(i -> i.getName().equals(name));
-        return new ArrayList<>(stream.collect(Collectors.toList()));
-    }
-
-    @Override
-    public ArrayList<Integer> getItemIds() throws RemoteException {
-        return new ArrayList<>(items.keySet());
-    }
-
-    @Override
-    public boolean createNewItem() throws RemoteException {
-        Item item = new Item();
-        item.setId(newId++);
-        item.setName("new item");
-        item.setPrice(0);
-        item.setQuantity(0);
-        items.put(item.getId(), item);
-
-        return true;
-    }
-
-    @Override
-    public boolean createItem(Item item) throws RemoteException {
-        item.setId(newId++);
-        items.put(item.getId(), item);
-
-        return true;
-    }
-
-    @Override
-    public boolean updateItem(Item item) throws RemoteException {
-        Item prev = items.replace(item.getId(), item);
-        return prev != null;
-    }
-
-    @Override
-    public boolean removeItem(int id) throws RemoteException {
-        Item prev = items.remove(id);
-        return prev != null;
-    }
-
-    @Override
-    public Storage getStorage(int id) throws RemoteException {
-        return storages.get(id);
-    }
-
-    @Override
-    public void close() throws Exception {
-        input.close();
     }
 }

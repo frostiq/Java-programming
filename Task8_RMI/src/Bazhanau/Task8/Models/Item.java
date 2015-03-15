@@ -49,7 +49,8 @@ public class Item implements Serializable {
         return storage;
     }
 
-    public void setStorage(Storage storage) {
+    public Item setStorage(Storage storage) {
         this.storage = storage;
+        return this;
     }
 }

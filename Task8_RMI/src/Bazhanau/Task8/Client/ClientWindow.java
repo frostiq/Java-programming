@@ -35,7 +35,7 @@ public class ClientWindow extends JFrame {
 
     public ClientWindow() {
         try {
-            String address = JOptionPane.showInputDialog("Type registry address");
+            String address = JOptionPane.showInputDialog("Type registry address", "localhost:16666");
             if(address == null) return;
 
             String[] temp = address.split(":");
