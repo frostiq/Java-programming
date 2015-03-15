@@ -1,4 +1,4 @@
-package Bazhanau.Task3.Client;
+package Bazhanau;
 
 import Bazhanau.Logging.ICatcher;
 

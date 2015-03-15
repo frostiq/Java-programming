@@ -1,7 +1,5 @@
 package Bazhanau.Task9;
 
-import Bazhanau.Logging.ConsoleCatcher;
-import Bazhanau.Logging.ICatcher;
 import Bazhanau.Task8.IRmiServer;
 import Bazhanau.Task8.Models.Item;
 import Bazhanau.Task8.Models.Storage;
@@ -22,9 +20,13 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class XmlAdapter implements IRmiServer {
-    private ICatcher catcher;
+/*TODO:
+    -data write
+    -localization
+    -schema
+ */
 
+public class XmlAdapter implements IRmiServer {
     private FileInputStream input;
     private XMLInputFactory factory;
     private XMLEventReader reader;
@@ -48,9 +50,7 @@ public class XmlAdapter implements IRmiServer {
 
     private int newId = 1;
 
-    public XmlAdapter(String filePath, ICatcher catcher) {
-        this.catcher = catcher;
-
+    public XmlAdapter(String filePath) {
         try {
             input = new FileInputStream(filePath);
             factory = XMLInputFactory.newInstance();
@@ -78,14 +78,14 @@ public class XmlAdapter implements IRmiServer {
             }
         }
         catch (Exception e){
-            this.catcher.catchException(e);
+            e.printStackTrace();
         }
 
     }
 
     public static void main(String[] args) {
         String s = System.getProperty("user.dir");
-        new XmlAdapter("Task9_StAX/data.xml", new ConsoleCatcher());
+        new XmlAdapter("Task9_StAX/data.xml");
     }
 
     private void init() {

@@ -35,7 +35,11 @@ public class ClientWindow extends JFrame {
 
     public ClientWindow() {
         try {
-            Registry registry = LocateRegistry.getRegistry("192.168.137.247", 16666);
+            String address = JOptionPane.showInputDialog("Type registry address");
+            if(address == null) return;
+
+            String[] temp = address.split(":");
+            Registry registry = LocateRegistry.getRegistry(temp[0], Integer.parseInt(temp[1]));
             server = (IRmiServer)registry.lookup("Server");
             itemsTableModel = new ItemTableModel(ItemsColumnNames, server, catcher);
             itemsTable = new JTable(itemsTableModel);

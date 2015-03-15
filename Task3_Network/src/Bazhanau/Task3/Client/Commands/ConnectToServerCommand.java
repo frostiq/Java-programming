@@ -1,9 +1,9 @@
 package Bazhanau.Task3.Client.Commands;
 
+import Bazhanau.SocketParser;
 import Bazhanau.Task3.Client.ClientDispatcher;
 import Bazhanau.Task3.Client.FileTreeNode;
 import Bazhanau.Task3.Client.IClientWindow;
-import Bazhanau.Task3.Client.SocketParser;
 
 import javax.swing.tree.DefaultTreeModel;
 import java.io.IOException;
