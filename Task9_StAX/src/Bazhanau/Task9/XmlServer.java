@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 /*TODO:
     -data write
     -localization
-    -schema
  */
 
 public class XmlServer extends RmiServer {
@@ -25,15 +24,15 @@ public class XmlServer extends RmiServer {
 
     private XmlAdapter adapter;
 
-    public XmlServer(String storagePath) {
-        adapter = new XmlAdapter(storagePath);
+    public XmlServer(String storagePath, String schemaPath) {
+        adapter = new XmlAdapter(storagePath, schemaPath);
         this.items = adapter.getItems();
         this.storages = adapter.getStorages();
         this.newId = adapter.getNewId();
     }
 
     public static void main(String[] args) {
-        new XmlServer("Task9_StAX/data.xml");
+        new XmlServer("Task9_StAX/data.xml", "Task9_StAX/data.xsd");
     }
 
 
@@ -94,7 +93,6 @@ public class XmlServer extends RmiServer {
 
     @Override
     public void close() throws Exception {
-        adapter.close();
     }
 
     private Item fillItem(Item item){

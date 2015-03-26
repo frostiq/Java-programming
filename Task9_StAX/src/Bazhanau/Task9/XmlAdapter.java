@@ -2,7 +2,9 @@ package Bazhanau.Task9;
 
 import Bazhanau.Task8.Models.Item;
 import Bazhanau.Task8.Models.Storage;
+import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -11,13 +13,20 @@ import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class XmlAdapter implements AutoCloseable {
+public class XmlAdapter{
 
-    private FileInputStream input;
+    private String inputPath;
+    private String schemaPath;
     private XMLInputFactory factory;
     private XMLEventReader reader;
 
@@ -40,15 +49,17 @@ public class XmlAdapter implements AutoCloseable {
 
     private int newId = 1;
 
-    public XmlAdapter(String filePath) {
-        try {
-            input = new FileInputStream(filePath);
+    public XmlAdapter(String inputPath, String schemaPath) {
+        this.inputPath = inputPath;
+        this.schemaPath = schemaPath;
+
+        try (FileInputStream input = new FileInputStream(inputPath)){
             factory = XMLInputFactory.newInstance();
+            validate();
             reader = factory.createXMLEventReader(input);
 
-            for (XMLEvent xmlEvent  : ((Iterable<XMLEvent>) () -> reader)){
-                switch(xmlEvent.getEventType())
-                {
+            for (XMLEvent xmlEvent : ((Iterable<XMLEvent>) () -> reader)) {
+                switch (xmlEvent.getEventType()) {
                     case XMLStreamConstants.START_DOCUMENT:
                         init();
                         break;
@@ -66,15 +77,9 @@ public class XmlAdapter implements AutoCloseable {
                         break;
                 }
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void close() throws Exception {
-        input.close();
     }
 
     public int getNewId() {
@@ -96,9 +101,8 @@ public class XmlAdapter implements AutoCloseable {
         insideItemElement = false;
     }
 
-    private void processStartElement(StartElement element){
-        if(element.getName().equals(itemName))
-        {
+    private void processStartElement(StartElement element) {
+        if (element.getName().equals(itemName)) {
             currentItem = new Item();
             currentItem.setId(Integer.parseInt(element.getAttributeByName(idName).getValue()));
             currentItem.setName(element.getAttributeByName(nameName).getValue());
@@ -107,8 +111,7 @@ public class XmlAdapter implements AutoCloseable {
             insideItemElement = true;
 
             newId = Math.max(newId, currentItem.getId() + 1);
-        }
-        else if(element.getName().equals(storageName)){
+        } else if (element.getName().equals(storageName)) {
             currentStorage = new Storage();
             currentStorage.setId(Integer.parseInt(element.getAttributeByName(idName).getValue()));
             if (!insideItemElement) {
@@ -119,19 +122,18 @@ public class XmlAdapter implements AutoCloseable {
     }
 
     private void processCharacters(Characters characters) {
-        if(insideItemElement){
+        if (insideItemElement) {
             chars.append(characters.getData());
         }
     }
 
     private void processEndElement(EndElement element) {
-        if(element.getName().equals(itemName)) {
+        if (element.getName().equals(itemName)) {
             int storageId = currentStorage.getId();
             currentItem.setStorage(getOrAddStorage(storageId));
             items.put(currentItem.getId(), currentItem);
             insideItemElement = false;
-        }
-        else if(element.getName().equals(storageName) && !insideItemElement){
+        } else if (element.getName().equals(storageName) && !insideItemElement) {
             storages.put(currentStorage.getId(), currentStorage);
         }
     }
@@ -145,10 +147,30 @@ public class XmlAdapter implements AutoCloseable {
     private Storage getOrAddStorage(int storageId) {
         Storage res = storages.get(storageId);
 
-        if(res == null){
+        if (res == null) {
             res = new Storage(storageId);
             storages.put(storageId, res);
         }
         return res;
+    }
+
+    private void validate() throws SAXException{
+        Source xmlFile = new StreamSource(inputPath);
+        Source schemaFile = new StreamSource(schemaPath);
+
+        try {
+            SchemaFactory schemaFactory = SchemaFactory
+                    .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = schemaFactory.newSchema(schemaFile);
+            Validator validator = schema.newValidator();
+            validator.validate(xmlFile);
+            System.out.println(xmlFile.getSystemId() + " is valid");
+        } catch (SAXException e) {
+            System.out.println(xmlFile.getSystemId() + " is NOT valid");
+            System.out.println("Reason: " + e.getLocalizedMessage());
+            throw e;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
