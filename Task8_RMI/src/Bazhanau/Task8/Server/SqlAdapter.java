@@ -4,6 +4,7 @@ import Bazhanau.Task7.MSSQLManager;
 import Bazhanau.Task8.Models.Item;
 import Bazhanau.Task8.Models.Storage;
 
+import java.rmi.RemoteException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -155,6 +156,11 @@ public class SqlAdapter extends RmiServer{
             catcher.catchException(e);
         }
         return storage;
+    }
+
+    @Override
+    public void flush() throws RemoteException {
+
     }
 
     @Override

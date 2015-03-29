@@ -7,6 +7,7 @@ import Bazhanau.Task8.IRmiServer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -30,17 +31,19 @@ public class ClientWindow extends JFrame {
 
     private JButton findButton = new JButton("Find by name");
 
+    private JButton flushButton = new JButton("Flush server cache");
+
     private ICatcher catcher = new MessageBoxCatcher(this);
 
 
     public ClientWindow() {
         try {
             String address = JOptionPane.showInputDialog("Type registry address", "localhost:16666");
-            if(address == null) return;
+            if (address == null) return;
 
             String[] temp = address.split(":");
             Registry registry = LocateRegistry.getRegistry(temp[0], Integer.parseInt(temp[1]));
-            server = (IRmiServer)registry.lookup("Server");
+            server = (IRmiServer) registry.lookup("Server");
             itemsTableModel = new ItemTableModel(ItemsColumnNames, server, catcher);
             itemsTable = new JTable(itemsTableModel);
         } catch (Exception e) {
@@ -55,6 +58,7 @@ public class ClientWindow extends JFrame {
         controlPanel.add(deleteButton);
         controlPanel.add(updateButton);
         controlPanel.add(findButton);
+        controlPanel.add(flushButton);
 
         add(new JScrollPane(itemsTable), BorderLayout.CENTER);
 
@@ -72,6 +76,14 @@ public class ClientWindow extends JFrame {
         });
 
         updateButton.addActionListener(e -> itemsTableModel.fireTableDataChanged());
+
+        flushButton.addActionListener(e -> {
+            try {
+                server.flush();
+            } catch (RemoteException ex) {
+                catcher.catchException(ex);
+            }
+        });
 
         setSize(800, 400);
         setLocationByPlatform(true);

@@ -23,4 +23,6 @@ public interface IRmiServer extends Remote, AutoCloseable {
     boolean removeItem(int id) throws RemoteException;
 
     Storage getStorage(int id) throws RemoteException;
+
+    void flush() throws RemoteException;
 }

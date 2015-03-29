@@ -6,9 +6,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.*;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
@@ -19,6 +17,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
@@ -27,7 +26,6 @@ public class XmlAdapter{
 
     private String inputPath;
     private String schemaPath;
-    private XMLInputFactory factory;
     private XMLEventReader reader;
 
     private QName itemName = new QName("item");
@@ -54,8 +52,8 @@ public class XmlAdapter{
         this.schemaPath = schemaPath;
 
         try (FileInputStream input = new FileInputStream(inputPath)){
-            factory = XMLInputFactory.newInstance();
             validate();
+            XMLInputFactory factory = XMLInputFactory.newInstance();
             reader = factory.createXMLEventReader(input);
 
             for (XMLEvent xmlEvent : ((Iterable<XMLEvent>) () -> reader)) {
@@ -170,6 +168,46 @@ public class XmlAdapter{
             System.out.println("Reason: " + e.getLocalizedMessage());
             throw e;
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void flush(){
+        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+        try(FileWriter output = new FileWriter(inputPath)) {
+            XMLStreamWriter writer = factory.createXMLStreamWriter(output);
+
+            writer.writeStartDocument();
+            writer.writeStartElement("data");
+            writer.writeStartElement("items");
+            for(Item item : items.values()){
+                writer.writeStartElement("item");
+                writer.writeAttribute("id", Integer.toString(item.getId()));
+                writer.writeAttribute("name", item.getName());
+                writer.writeAttribute("price", Integer.toString(item.getPrice()));
+                writer.writeAttribute("quantity", Integer.toString(item.getQuantity()));
+                writer.writeStartElement("storage");
+                writer.writeAttribute("id", Integer.toString(item.getStorage().getId()));
+                writer.writeEndElement();
+                writer.writeEndElement();
+            }
+            writer.writeEndElement();
+            writer.writeStartElement("storages");
+            for(Storage storage : storages.values()){
+                writer.writeStartElement("storage");
+                writer.writeAttribute("id", Integer.toString(storage.getId()));
+                writer.writeAttribute("name", storage.getName());
+                writer.writeAttribute("location", storage.getLocation());
+                writer.writeEndElement();
+            }
+            writer.writeEndElement();
+            writer.writeEndElement();
+            writer.writeEndDocument();
+
+            writer.flush();
+            writer.close();
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
     }

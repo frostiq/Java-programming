@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /*TODO:
-    -data write
     -localization
  */
 
@@ -92,8 +91,12 @@ public class XmlServer extends RmiServer {
     }
 
     @Override
-    public void close() throws Exception {
+    public void flush(){
+        adapter.flush();
     }
+
+    @Override
+    public void close() throws Exception {}
 
     private Item fillItem(Item item){
         Storage storage = item.getStorage();
