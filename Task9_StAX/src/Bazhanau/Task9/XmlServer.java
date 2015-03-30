@@ -10,10 +10,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/*TODO:
-    -localization
- */
-
 public class XmlServer extends RmiServer {
     private Map<Integer, Item> items;
 
