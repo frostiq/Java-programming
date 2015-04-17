@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Java-programming.iml" filepath="$PROJECT_DIR$/Java-programming.iml" />
       <module fileurl="file://$PROJECT_DIR$/KR1/KR1.iml" filepath="$PROJECT_DIR$/KR1/KR1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Task10_Servlets/Task10_Servlets.iml" filepath="$PROJECT_DIR$/Task10_Servlets/Task10_Servlets.iml" />
       <module fileurl="file://$PROJECT_DIR$/Task1_IOStreams/Task1_IOStreams.iml" filepath="$PROJECT_DIR$/Task1_IOStreams/Task1_IOStreams.iml" />
       <module fileurl="file://$PROJECT_DIR$/Task2_IOStreams_and_algorithms/Task2_IOStreams_and_algorithms.iml" filepath="$PROJECT_DIR$/Task2_IOStreams_and_algorithms/Task2_IOStreams_and_algorithms.iml" />
       <module fileurl="file://$PROJECT_DIR$/Task3_Network/Task3_Network.iml" filepath="$PROJECT_DIR$/Task3_Network/Task3_Network.iml" />

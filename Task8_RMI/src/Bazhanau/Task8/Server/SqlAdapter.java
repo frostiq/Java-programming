@@ -8,19 +8,30 @@ import java.rmi.RemoteException;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * @author Alex Bazhanau
+ *
+ * Responsible for the interaction with the SQL-database.
+ * Since this class is inherited from RmiServer, it saves its instance in the local registry
+ *
+ * @see Bazhanau.Task8.Server.RmiServer
+ */
 public class SqlAdapter extends RmiServer{
-    public static final String INSERT_ITEM = "INSERT INTO Items(name, price, quantity, storage_id) VALUES(?,?,?,?)";
-    public static final String UPDATE_ITEM = "UPDATE Items SET name = ?, price = ?, quantity = ?, storage_id = ? WHERE id = ?";
-    public static final String DELETE_ITEM = "DELETE FROM Items WHERE id = ?";
-    public static final String SELECT_ITEM = "SELECT * FROM Items WHERE id = ?";
-    public static final String SELECT_ITEM_BY_NAME = "SELECT * FROM Items WHERE name = ?";
-    public static final String SELECT_ITEM_IDS = "SELECT id FROM Items";
-    public static final String INSERT_STORAGE = "INSERT INTO Storages(id, name, location) VALUES(?,?,?)";
-    public static final String UPDATE_STORAGE = "UPDATE Storages SET name = ?, location = ? WHERE id = ?";
-    public static final String DELETE_STORAGE = "DELETE FROM Storages WHERE id = ?";
-    public static final String SELECT_STORAGE = "SELECT * FROM Storages WHERE id = ?";
-    Connection connection;
+    private static final String INSERT_ITEM = "INSERT INTO Items(name, price, quantity, storage_id) VALUES(?,?,?,?)";
+    private static final String UPDATE_ITEM = "UPDATE Items SET name = ?, price = ?, quantity = ?, storage_id = ? WHERE id = ?";
+    private static final String DELETE_ITEM = "DELETE FROM Items WHERE id = ?";
+    private static final String SELECT_ITEM = "SELECT * FROM Items WHERE id = ?";
+    private static final String SELECT_ITEM_BY_NAME = "SELECT * FROM Items WHERE name = ?";
+    private static final String SELECT_ITEM_IDS = "SELECT id FROM Items";
+    private static final String INSERT_STORAGE = "INSERT INTO Storages(id, name, location) VALUES(?,?,?)";
+    private static final String UPDATE_STORAGE = "UPDATE Storages SET name = ?, location = ? WHERE id = ?";
+    private static final String DELETE_STORAGE = "DELETE FROM Storages WHERE id = ?";
+    private static final String SELECT_STORAGE = "SELECT * FROM Storages WHERE id = ?";
+    private Connection connection;
 
+    /**
+     * Creates an instance
+     */
     public SqlAdapter() {
         connection = new MSSQLManager("JavaTask8").getConnection();
     }
@@ -28,6 +39,7 @@ public class SqlAdapter extends RmiServer{
     public static void main(String[] args) {
         new SqlAdapter();
     }
+
 
     @Override
     public Item getItem(int id) {
@@ -45,6 +57,7 @@ public class SqlAdapter extends RmiServer{
         }
         return item;
     }
+
 
     @Override
     public ArrayList<Item> getItem(String name) {
@@ -64,6 +77,7 @@ public class SqlAdapter extends RmiServer{
         return items;
     }
 
+
     @Override
     public ArrayList<Integer> getItemIds() {
         ArrayList<Integer> items = new ArrayList<>();
@@ -81,6 +95,7 @@ public class SqlAdapter extends RmiServer{
         return items;
     }
 
+
     @Override
     public boolean createNewItem(){
         Item item = new Item();
@@ -89,6 +104,7 @@ public class SqlAdapter extends RmiServer{
         item.setQuantity(0);
         return createItem(item);
     }
+
 
     @Override
     public boolean createItem(Item item) {
@@ -108,6 +124,7 @@ public class SqlAdapter extends RmiServer{
         }
         return true;
     }
+
 
     @Override
     public boolean updateItem(Item item) {
@@ -129,6 +146,7 @@ public class SqlAdapter extends RmiServer{
         return true;
     }
 
+
     @Override
     public boolean removeItem(int id) {
         try {
@@ -141,6 +159,7 @@ public class SqlAdapter extends RmiServer{
         }
         return true;
     }
+
 
     @Override
     public Storage getStorage(int id) {
@@ -158,11 +177,16 @@ public class SqlAdapter extends RmiServer{
         return storage;
     }
 
+
     @Override
     public void flush() throws RemoteException {
 
     }
 
+    /**
+     * closes connection with servers
+     * @throws Exception
+     */
     @Override
     public void close() throws Exception {
         connection.close();

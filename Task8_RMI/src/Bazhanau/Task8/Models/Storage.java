@@ -2,6 +2,11 @@ package Bazhanau.Task8.Models;
 
 import java.io.Serializable;
 
+/**
+ * @author Alex Bazhanau
+ *
+ * Model for storage entity
+ */
 public class Storage implements Serializable{
     private int id;
 

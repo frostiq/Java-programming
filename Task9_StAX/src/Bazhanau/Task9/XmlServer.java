@@ -19,8 +19,14 @@ public class XmlServer extends RmiServer {
 
     private XmlAdapter adapter;
 
-    public XmlServer(String storagePath, String schemaPath) {
-        adapter = new XmlAdapter(storagePath, schemaPath);
+    public XmlServer(String storagePath, String schemaPath){
+        try {
+            adapter = new XmlAdapter(storagePath, schemaPath);
+        } catch (Exception e) {
+            catcher.catchException(e);
+            disable();
+        }
+
         this.items = adapter.getItems();
         this.storages = adapter.getStorages();
         this.newId = adapter.getNewId();

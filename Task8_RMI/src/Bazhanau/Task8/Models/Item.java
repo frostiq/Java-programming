@@ -2,6 +2,11 @@ package Bazhanau.Task8.Models;
 
 import java.io.Serializable;
 
+/**
+ * @author Alex Bazhanau
+ *
+ * Model for item entity
+ */
 public class Item implements Serializable {
     private int id;
 

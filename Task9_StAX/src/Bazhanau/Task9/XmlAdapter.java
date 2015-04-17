@@ -47,7 +47,7 @@ public class XmlAdapter{
 
     private int newId = 1;
 
-    public XmlAdapter(String inputPath, String schemaPath) {
+    public XmlAdapter(String inputPath, String schemaPath) throws Exception{
         this.inputPath = inputPath;
         this.schemaPath = schemaPath;
 
@@ -77,6 +77,7 @@ public class XmlAdapter{
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
