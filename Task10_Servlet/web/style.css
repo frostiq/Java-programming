@@ -1,0 +1,19 @@
+body {
+    background-color: black;
+    color: greenyellow;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input{
+    margin: 10px;
+    background-color: gray;
+    color: greenyellow;
+    border: 1px solid #d259ee;
+}
+
+.result {
+    font-size: medium;
+    font-family: droid sans;
+    color: greenyellow;
+    text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.37);
+}

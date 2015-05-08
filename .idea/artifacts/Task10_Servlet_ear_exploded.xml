@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Task10_Servlet:ear exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Task10_Servlet_ear_exploded</output-path>
+    <root id="archive" name="Task10_Servlet_ear exploded.war">
+      <element id="javaee-facet-resources" facet="Task10_Servlet/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Task10_Servlet" />
+          <element id="module-output" name="Java-programming" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="sqljdbc4" />
+          <element id="library" level="project" name="gson-2.3" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
