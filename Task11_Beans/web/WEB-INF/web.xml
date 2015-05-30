@@ -3,4 +3,13 @@
          xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <jsp-config>
+        <taglib>
+            <taglib-uri>my_tags</taglib-uri>
+            <taglib-location>/WEB-INF/mytaglib.tdl</taglib-location>
+        </taglib>
+    </jsp-config>
+    <error-page>
+        <location>/error.jsp</location>
+    </error-page>
 </web-app>

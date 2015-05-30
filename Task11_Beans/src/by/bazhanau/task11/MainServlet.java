@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
@@ -19,13 +21,9 @@ import java.util.List;
 public class MainServlet extends HttpServlet {
     IRmiServer storage;
 
-    public MainServlet() {
-        try {
+    public MainServlet() throws RemoteException, NotBoundException {
             Registry registry = LocateRegistry.getRegistry("localhost", 16666);
             storage = (IRmiServer) registry.lookup("Server");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,13 +44,8 @@ public class MainServlet extends HttpServlet {
                 item.setName(request.getParameter("name"));
                 item.setPrice(Integer.parseInt(request.getParameter("price")));
                 item.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+                item.setStorage(new Storage(Integer.parseInt(request.getParameter("storageId"))));
 
-                try {
-                    item.setStorage(new Storage(Integer.parseInt(request.getParameter("storageId"))));
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
                 storage.updateItem(item);
             }
             break;

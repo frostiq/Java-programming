@@ -1,0 +1,18 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>My taglib</short-name>
+    <tag>
+        <name>bundle</name>
+        <tag-class>by.bazhanau.task11.BundleTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>scripts</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>styles</name>
+            <required>false</required>
+        </attribute>
+    </tag>
+</taglib>

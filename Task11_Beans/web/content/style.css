@@ -1,0 +1,11 @@
+form#edit{
+    display: none;
+}
+
+form[name="remove"]{
+    margin-bottom: 0;
+}
+
+table#items{
+    margin-bottom: 16px;
+}
