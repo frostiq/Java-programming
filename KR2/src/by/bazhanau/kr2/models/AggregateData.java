@@ -1,0 +1,26 @@
+package by.bazhanau.kr2.models;
+
+/**
+ * Created by Аляксандр on 22.05.15.
+ */
+public class AggregateData {
+    private int count;
+
+    private int sum;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
+}

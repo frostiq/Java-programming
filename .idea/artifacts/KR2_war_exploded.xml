@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="KR2:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/KR2_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="KR2/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="KR2" />
+          <element id="module-output" name="Task7_Database" />
+          <element id="module-output" name="Java-programming" />
+          <element id="module-output" name="Task2_IOStreams_and_algorithms" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/lib/sqljdbc4.jar" />
+          <element id="library" level="project" name="gson-2.3" />
+          <element id="library" level="project" name="javax.servlet.jsp.jstl-api-1.2.1" />
+          <element id="library" level="project" name="javax.servlet.jsp.jstl-1.2.1" />
+        </element>
+      </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/KR2/resources" />
+    </root>
+  </artifact>
+</component>

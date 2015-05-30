@@ -1,0 +1,25 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Task11_Beans:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Task11_Beans_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Task11_Beans/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Task11_Beans" />
+          <element id="module-output" name="Task8_RMI" />
+          <element id="module-output" name="Java-programming" />
+          <element id="module-output" name="Task7_Database" />
+          <element id="module-output" name="Task5_Reflection&amp;Internalization" />
+          <element id="module-output" name="Task2_IOStreams_and_algorithms" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="sqljdbc4" />
+          <element id="library" level="project" name="gson-2.3" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/sqljdbc4.jar" />
+          <element id="library" level="project" name="javax.servlet.jsp.jstl-1.2.1" />
+          <element id="library" level="project" name="javax.servlet.jsp.jstl-api-1.2.1" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
