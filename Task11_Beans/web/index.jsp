@@ -1,15 +1,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="my_tags" prefix="my"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" errorPage="error.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" errorPage="content/error.jsp" %>
 
 <html>
 <head>
-    <my:bundle scripts="jquery-2.1.4.min.js;main.js" styles="style.css"/>
+    <my:bundle root="content">
+        <my:scripts>jquery-2.1.4.min.js;main.js</my:scripts>
+        <my:styles>style.css</my:styles>
+    </my:bundle>
     <title>Кіраванне складам</title>
 </head>
 <body>
 
-<table id="items" title="Кіраванне складам" border="1" cellpadding="5" cellspacing="0">
+<table id="items" border="1" cellpadding="5" cellspacing="0">
+    <caption>Кіраванне складам</caption>
     <%@ include file="content/table-header.jsp"%>
     <c:forEach var="item" items="${requestScope.items}">
         <tr id="${item.id}">

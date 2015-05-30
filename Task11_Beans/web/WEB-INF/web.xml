@@ -10,6 +10,6 @@
         </taglib>
     </jsp-config>
     <error-page>
-        <location>/error.jsp</location>
+        <location>/content/error.jsp</location>
     </error-page>
 </web-app>

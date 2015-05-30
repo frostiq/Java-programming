@@ -4,15 +4,21 @@
     <short-name>My taglib</short-name>
     <tag>
         <name>bundle</name>
-        <tag-class>by.bazhanau.task11.BundleTag</tag-class>
+        <tag-class>by.bazhanau.task11.Tags.BundleTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>root</name>
+            <required>true</required>
+        </attribute>
+    </tag>
+    <tag>
+        <name>scripts</name>
+        <tag-class>by.bazhanau.task11.Tags.ScriptsTag</tag-class>
         <body-content>scriptless</body-content>
-        <attribute>
-            <name>scripts</name>
-            <required>false</required>
-        </attribute>
-        <attribute>
-            <name>styles</name>
-            <required>false</required>
-        </attribute>
+    </tag>
+    <tag>
+        <name>styles</name>
+        <tag-class>by.bazhanau.task11.Tags.StylesTag</tag-class>
+        <body-content>scriptless</body-content>
     </tag>
 </taglib>
